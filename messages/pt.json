@@ -1,0 +1,244 @@
+{
+  "meta": {
+    "title": "Daily Chess — um desafio de xadrez por dia",
+    "description": "Um puzzle de xadrez novo todo dia, treino por tema, modo Rush e partidas clássicas. Grátis, no celular e no computador."
+  },
+  "nav": {
+    "today": "Hoje",
+    "train": "Treino",
+    "rush": "Rush",
+    "classics": "Clássicos",
+    "archive": "Arquivo",
+    "profile": "Perfil",
+    "settings": "Ajustes"
+  },
+  "weekday": {
+    "0": "Domingo",
+    "1": "Segunda",
+    "2": "Terça",
+    "3": "Quarta",
+    "4": "Quinta",
+    "5": "Sexta",
+    "6": "Sábado"
+  },
+  "level": {
+    "0": "Mestre",
+    "1": "Fácil",
+    "2": "Fácil",
+    "3": "Médio",
+    "4": "Médio",
+    "5": "Difícil",
+    "6": "Difícil"
+  },
+  "daily": {
+    "title": "Desafio do dia",
+    "number": "Nº {n}",
+    "rating": "{rating} pts",
+    "nextIn": "Próximo desafio em <t>{time}</t>",
+    "alreadyDone": "Você já jogou o desafio de hoje.",
+    "archiveCta": "Jogar dias anteriores",
+    "weekCurve": "A dificuldade sobe ao longo da semana: segunda é fácil, domingo é para mestres.",
+    "today": "Hoje",
+    "ratingTitle": "Dificuldade do puzzle (rating)"
+  },
+  "puzzle": {
+    "whiteToMove": "Brancas jogam",
+    "blackToMove": "Pretas jogam",
+    "findBest": "Encontre o melhor lance",
+    "findMate": "Encontre o mate em {n}",
+    "progress": "Lance {done} de {total}",
+    "correct": "Isso! Continue.",
+    "wrong": "Não é esse. Tente de novo.",
+    "solved": "Resolvido!",
+    "revealed": "Solução mostrada",
+    "hint": "Dica",
+    "showSolution": "Ver solução",
+    "next": "Próximo",
+    "retry": "Tentar de novo",
+    "opponentThinking": "Adversário jogando…",
+    "viewGame": "Ver partida original",
+    "flip": "Girar tabuleiro",
+    "moveInput": "Digite um lance (ex.: Nf3)",
+    "moveInputLabel": "Jogar pelo teclado",
+    "play": "Jogar",
+    "promoteTo": "Promover para",
+    "pieces": {
+      "q": "Dama",
+      "r": "Torre",
+      "b": "Bispo",
+      "n": "Cavalo"
+    },
+    "solutionShort": "Solução",
+    "hintAria": "Dica ({n, plural, one {# restante} other {# restantes}})",
+    "puzzleRating": "Puzzle {rating}"
+  },
+  "result": {
+    "solvedTitle": "Resolvido!",
+    "solvedClean": "Sem erros. Impecável.",
+    "solvedHelp": "Resolvido com ajuda.",
+    "failedTitle": "Fica para a próxima",
+    "time": "Tempo",
+    "mistakes": "Erros",
+    "hints": "Dicas",
+    "streak": "Sequência",
+    "share": "Compartilhar",
+    "copied": "Copiado!",
+    "aboutTheme": "Sobre o tema: {theme}",
+    "close": "Fechar",
+    "days": "{n, plural, one {# dia} other {# dias}}",
+    "trainTheme": "Treinar {theme}"
+  },
+  "themes": {
+    "mateIn1": {
+      "name": "Mate em 1",
+      "desc": "Um lance e acabou. Procure xeques que o rei não consegue escapar."
+    },
+    "mateIn2": {
+      "name": "Mate em 2",
+      "desc": "Dois lances até o mate. O primeiro costuma ser um xeque ou um sacrifício que tira a defesa do rei."
+    },
+    "mateIn3": {
+      "name": "Mate em 3",
+      "desc": "Três lances forçados até o mate. Calcule cada resposta possível do adversário."
+    },
+    "fork": {
+      "name": "Garfo",
+      "desc": "Uma peça ataca duas ou mais peças ao mesmo tempo. O cavalo é o rei dos garfos."
+    },
+    "pin": {
+      "name": "Cravada",
+      "desc": "Uma peça não pode se mexer porque exporia algo mais valioso atrás dela — às vezes o próprio rei."
+    },
+    "skewer": {
+      "name": "Espeto",
+      "desc": "O contrário da cravada: você ataca a peça valiosa na frente, ela foge, e você captura a que está atrás."
+    },
+    "discoveredAttack": {
+      "name": "Ataque descoberto",
+      "desc": "Uma peça sai do caminho e revela o ataque de outra. Dois ataques de uma vez."
+    },
+    "sacrifice": {
+      "name": "Sacrifício",
+      "desc": "Entregar material de propósito para ganhar algo maior: mate, mais material ou um ataque decisivo."
+    },
+    "deflection": {
+      "name": "Desvio",
+      "desc": "Force uma peça defensora a sair do lugar, e o que ela protegia fica sem defesa."
+    },
+    "endgame": {
+      "name": "Finais",
+      "desc": "Poucas peças no tabuleiro. Rei ativo, peões passados e precisão fazem toda a diferença."
+    },
+    "advantage": {
+      "name": "Ganhe vantagem",
+      "desc": "Uma sequência de lances que termina com você claramente melhor. Pense alguns lances à frente."
+    }
+  },
+  "train": {
+    "title": "Treino por tema",
+    "subtitle": "Escolha um padrão tático e pratique até ele virar instinto. Os puzzles se ajustam ao seu nível.",
+    "yourRating": "Seu nível: {rating}",
+    "solvedOf": "{solved} de {attempts} resolvidos",
+    "notStarted": "Ainda não praticado",
+    "streakLabel": "{n} seguidos",
+    "loading": "Carregando puzzles…",
+    "error": "Não conseguimos carregar os puzzles. Verifique a conexão e tente de novo.",
+    "back": "Todos os temas"
+  },
+  "rush": {
+    "title": "Rush",
+    "subtitle": "Três minutos, três vidas. Os puzzles ficam mais difíceis a cada acerto.",
+    "start": "Começar",
+    "best": "Recorde: {n}",
+    "score": "Acertos",
+    "lives": "Vidas",
+    "timeLeft": "Tempo",
+    "over": "Fim do Rush",
+    "finalScore": "{n, plural, =0 {Nenhum puzzle resolvido desta vez.} one {# puzzle resolvido.} other {# puzzles resolvidos.}}",
+    "newRecord": "Novo recorde!",
+    "again": "Jogar de novo",
+    "rule1": "3 minutos no relógio. Cada acerto conta um ponto.",
+    "rule2": "3 vidas. Um lance errado custa uma vida.",
+    "rule3": "Começa fácil e esquenta a cada puzzle.",
+    "scoreLabel": "acertos",
+    "clockLabel": "Relógio do Rush: 3 minutos"
+  },
+  "classics": {
+    "title": "Clássicos",
+    "subtitle": "Reviva os momentos mais famosos da história do xadrez — e encontre os lances que os mestres encontraram.",
+    "play": "Jogar",
+    "solved": "Resolvido",
+    "difficulty": {
+      "1": "Iniciante",
+      "2": "Intermediário",
+      "3": "Avançado"
+    },
+    "youPlay": "Você joga de {color}",
+    "white": "brancas",
+    "black": "pretas",
+    "story": "A história",
+    "back": "Todos os clássicos"
+  },
+  "archive": {
+    "title": "Arquivo",
+    "subtitle": "Todos os desafios diários anteriores. Perdeu um dia? Jogue agora (não conta para a sequência).",
+    "solved": "Resolvido",
+    "failed": "Não resolvido",
+    "notPlayed": "Não jogado",
+    "back": "Arquivo",
+    "pastDay": "Desafio de {date}"
+  },
+  "profile": {
+    "title": "Seu perfil",
+    "local": "Seu progresso fica salvo neste navegador.",
+    "rating": "Nível",
+    "streak": "Sequência atual",
+    "bestStreak": "Melhor sequência",
+    "dailySolved": "Desafios resolvidos",
+    "rushBest": "Recorde no Rush",
+    "byTheme": "Por tema",
+    "calendar": "Últimos meses",
+    "empty": "Resolva o desafio de hoje para começar seu histórico.",
+    "reset": "Apagar progresso",
+    "resetConfirm": "Tem certeza? Isso apaga todo o seu progresso neste navegador."
+  },
+  "settings": {
+    "title": "Ajustes",
+    "sound": "Sons",
+    "board": "Tabuleiro",
+    "boards": {
+      "green": "Verde",
+      "wood": "Madeira",
+      "blue": "Azul",
+      "slate": "Ardósia"
+    },
+    "theme": "Aparência",
+    "themes": {
+      "system": "Sistema",
+      "light": "Claro",
+      "dark": "Escuro"
+    },
+    "language": "Idioma"
+  },
+  "onboarding": {
+    "s1Title": "Um desafio por dia",
+    "s1Body": "Todo dia, à meia-noite, chega um puzzle novo — o mesmo para todo mundo. Resolva e compare com os amigos.",
+    "s2Title": "Encontre o melhor lance",
+    "s2Body": "Toque numa peça e depois na casa de destino, ou arraste. Se errar, tente de novo. As dicas estão sempre lá.",
+    "s3Title": "Mantenha a sequência",
+    "s3Body": "Volte amanhã para manter sua sequência viva. A semana começa fácil e termina difícil.",
+    "next": "Continuar",
+    "start": "Jogar o desafio de hoje",
+    "skip": "Pular"
+  },
+  "footer": {
+    "lichess": "Puzzles da base aberta do Lichess.org (CC0).",
+    "made": "Feito para aproximar as pessoas do xadrez."
+  },
+  "a11y": {
+    "board": "Tabuleiro de xadrez",
+    "moved": "{color} jogou {move}",
+    "white": "Brancas",
+    "black": "Pretas"
+  }
+}

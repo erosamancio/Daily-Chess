@@ -1,0 +1,244 @@
+{
+  "meta": {
+    "title": "Daily Chess — one chess puzzle a day",
+    "description": "A new chess puzzle every day, themed training, Rush mode and classic games. Free, on phone and desktop."
+  },
+  "nav": {
+    "today": "Today",
+    "train": "Train",
+    "rush": "Rush",
+    "classics": "Classics",
+    "archive": "Archive",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "weekday": {
+    "0": "Sunday",
+    "1": "Monday",
+    "2": "Tuesday",
+    "3": "Wednesday",
+    "4": "Thursday",
+    "5": "Friday",
+    "6": "Saturday"
+  },
+  "level": {
+    "0": "Master",
+    "1": "Easy",
+    "2": "Easy",
+    "3": "Medium",
+    "4": "Medium",
+    "5": "Hard",
+    "6": "Hard"
+  },
+  "daily": {
+    "title": "Daily challenge",
+    "number": "No. {n}",
+    "rating": "{rating} pts",
+    "nextIn": "Next challenge in <t>{time}</t>",
+    "alreadyDone": "You've already played today's challenge.",
+    "archiveCta": "Play previous days",
+    "weekCurve": "Difficulty rises through the week: Monday is easy, Sunday is for masters.",
+    "today": "Today",
+    "ratingTitle": "Puzzle difficulty (rating)"
+  },
+  "puzzle": {
+    "whiteToMove": "White to move",
+    "blackToMove": "Black to move",
+    "findBest": "Find the best move",
+    "findMate": "Find mate in {n}",
+    "progress": "Move {done} of {total}",
+    "correct": "Yes! Keep going.",
+    "wrong": "Not that one. Try again.",
+    "solved": "Solved!",
+    "revealed": "Solution shown",
+    "hint": "Hint",
+    "showSolution": "Show solution",
+    "next": "Next",
+    "retry": "Try again",
+    "opponentThinking": "Opponent moving…",
+    "viewGame": "View original game",
+    "flip": "Flip board",
+    "moveInput": "Type a move (e.g. Nf3)",
+    "moveInputLabel": "Play by keyboard",
+    "play": "Play",
+    "promoteTo": "Promote to",
+    "pieces": {
+      "q": "Queen",
+      "r": "Rook",
+      "b": "Bishop",
+      "n": "Knight"
+    },
+    "solutionShort": "Solution",
+    "hintAria": "Hint ({n} left)",
+    "puzzleRating": "Puzzle {rating}"
+  },
+  "result": {
+    "solvedTitle": "Solved!",
+    "solvedClean": "No mistakes. Flawless.",
+    "solvedHelp": "Solved with some help.",
+    "failedTitle": "Better luck tomorrow",
+    "time": "Time",
+    "mistakes": "Mistakes",
+    "hints": "Hints",
+    "streak": "Streak",
+    "share": "Share",
+    "copied": "Copied!",
+    "aboutTheme": "About the theme: {theme}",
+    "close": "Close",
+    "days": "{n, plural, one {# day} other {# days}}",
+    "trainTheme": "Train {theme}"
+  },
+  "themes": {
+    "mateIn1": {
+      "name": "Mate in 1",
+      "desc": "One move and it's over. Look for checks the king can't escape."
+    },
+    "mateIn2": {
+      "name": "Mate in 2",
+      "desc": "Two moves to mate. The first is usually a check or a sacrifice that strips the king's defense."
+    },
+    "mateIn3": {
+      "name": "Mate in 3",
+      "desc": "Three forcing moves to mate. Calculate every reply your opponent has."
+    },
+    "fork": {
+      "name": "Fork",
+      "desc": "One piece attacks two or more pieces at once. The knight is the king of forks."
+    },
+    "pin": {
+      "name": "Pin",
+      "desc": "A piece can't move because it would expose something more valuable behind it — sometimes the king."
+    },
+    "skewer": {
+      "name": "Skewer",
+      "desc": "The reverse of a pin: attack the valuable piece in front, it steps away, and you take the one behind."
+    },
+    "discoveredAttack": {
+      "name": "Discovered attack",
+      "desc": "One piece moves out of the way and unveils another's attack. Two threats at once."
+    },
+    "sacrifice": {
+      "name": "Sacrifice",
+      "desc": "Give up material on purpose to win something bigger: mate, more material, or a decisive attack."
+    },
+    "deflection": {
+      "name": "Deflection",
+      "desc": "Force a defender away from its post, and whatever it guarded falls."
+    },
+    "endgame": {
+      "name": "Endgames",
+      "desc": "Few pieces left. An active king, passed pawns and precision make all the difference."
+    },
+    "advantage": {
+      "name": "Gain advantage",
+      "desc": "A sequence of moves that leaves you clearly better. Think a few moves ahead."
+    }
+  },
+  "train": {
+    "title": "Train by theme",
+    "subtitle": "Pick a tactical pattern and practice until it becomes instinct. Puzzles adapt to your level.",
+    "yourRating": "Your level: {rating}",
+    "solvedOf": "{solved} of {attempts} solved",
+    "notStarted": "Not practiced yet",
+    "streakLabel": "{n} in a row",
+    "loading": "Loading puzzles…",
+    "error": "We couldn't load the puzzles. Check your connection and try again.",
+    "back": "All themes"
+  },
+  "rush": {
+    "title": "Rush",
+    "subtitle": "Three minutes, three lives. Puzzles get harder with every solve.",
+    "start": "Start",
+    "best": "Best: {n}",
+    "score": "Solved",
+    "lives": "Lives",
+    "timeLeft": "Time",
+    "over": "Rush over",
+    "finalScore": "{n, plural, =0 {No puzzles solved this time.} one {# puzzle solved.} other {# puzzles solved.}}",
+    "newRecord": "New record!",
+    "again": "Play again",
+    "rule1": "3 minutes on the clock. Each solve is a point.",
+    "rule2": "3 lives. One wrong move costs a life.",
+    "rule3": "Starts easy and heats up with every puzzle.",
+    "scoreLabel": "solved",
+    "clockLabel": "Rush clock: 3 minutes"
+  },
+  "classics": {
+    "title": "Classics",
+    "subtitle": "Relive the most famous moments in chess history — and find the moves the masters found.",
+    "play": "Play",
+    "solved": "Solved",
+    "difficulty": {
+      "1": "Beginner",
+      "2": "Intermediate",
+      "3": "Advanced"
+    },
+    "youPlay": "You play {color}",
+    "white": "white",
+    "black": "black",
+    "story": "The story",
+    "back": "All classics"
+  },
+  "archive": {
+    "title": "Archive",
+    "subtitle": "Every past daily challenge. Missed a day? Play it now (it won't count toward your streak).",
+    "solved": "Solved",
+    "failed": "Not solved",
+    "notPlayed": "Not played",
+    "back": "Archive",
+    "pastDay": "Challenge of {date}"
+  },
+  "profile": {
+    "title": "Your profile",
+    "local": "Your progress is saved in this browser.",
+    "rating": "Level",
+    "streak": "Current streak",
+    "bestStreak": "Best streak",
+    "dailySolved": "Challenges solved",
+    "rushBest": "Rush best",
+    "byTheme": "By theme",
+    "calendar": "Recent months",
+    "empty": "Solve today's challenge to start your history.",
+    "reset": "Erase progress",
+    "resetConfirm": "Are you sure? This erases all your progress in this browser."
+  },
+  "settings": {
+    "title": "Settings",
+    "sound": "Sounds",
+    "board": "Board",
+    "boards": {
+      "green": "Green",
+      "wood": "Wood",
+      "blue": "Blue",
+      "slate": "Slate"
+    },
+    "theme": "Appearance",
+    "themes": {
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "language": "Language"
+  },
+  "onboarding": {
+    "s1Title": "One challenge a day",
+    "s1Body": "Every day at midnight a new puzzle arrives — the same for everyone. Solve it and compare with friends.",
+    "s2Title": "Find the best move",
+    "s2Body": "Tap a piece, then its destination, or drag it. Wrong? Try again. Hints are always there.",
+    "s3Title": "Keep your streak",
+    "s3Body": "Come back tomorrow to keep your streak alive. The week starts easy and ends hard.",
+    "next": "Continue",
+    "start": "Play today's challenge",
+    "skip": "Skip"
+  },
+  "footer": {
+    "lichess": "Puzzles from the Lichess.org open database (CC0).",
+    "made": "Made to bring people closer to chess."
+  },
+  "a11y": {
+    "board": "Chess board",
+    "moved": "{color} played {move}",
+    "white": "White",
+    "black": "Black"
+  }
+}
