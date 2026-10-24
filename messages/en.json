@@ -10,7 +10,8 @@
     "classics": "Classics",
     "archive": "Archive",
     "profile": "Profile",
-    "settings": "Settings"
+    "settings": "Settings",
+    "review": "Review"
   },
   "weekday": {
     "0": "Sunday",
@@ -183,11 +184,13 @@
     "streakLabel": "{n} in a row",
     "loading": "Loading puzzles…",
     "error": "We couldn't load the puzzles. Check your connection and try again.",
-    "back": "All themes"
+    "back": "All themes",
+    "reviewCta": "{n, plural, one {# puzzle to review} other {# puzzles to review}}",
+    "reviewCtaBody": "Replay the ones you missed until you get them first try."
   },
   "rush": {
     "title": "Rush",
-    "subtitle": "Three minutes, three lives. Puzzles get harder with every solve.",
+    "subtitle": "{min} minutes, three lives. Puzzles get harder with every solve.",
     "start": "Start",
     "best": "Best: {n}",
     "score": "Solved",
@@ -197,11 +200,13 @@
     "finalScore": "{n, plural, =0 {No puzzles solved this time.} one {# puzzle solved.} other {# puzzles solved.}}",
     "newRecord": "New record!",
     "again": "Play again",
-    "rule1": "3 minutes on the clock. Each solve is a point.",
+    "rule1": "{min} minutes on the clock. Each solve is a point.",
     "rule2": "3 lives. One wrong move costs a life.",
     "rule3": "Starts easy and heats up with every puzzle.",
     "scoreLabel": "solved",
-    "clockLabel": "Rush clock: 3 minutes"
+    "clockLabel": "Rush clock: {min} minutes",
+    "durationLabel": "Rush length",
+    "minutes": "{min} min"
   },
   "classics": {
     "title": "Classics",
@@ -235,7 +240,7 @@
     "streak": "Current streak",
     "bestStreak": "Best streak",
     "dailySolved": "Challenges solved",
-    "rushBest": "Rush best",
+    "rushBest": "Best Rush (3 · 5 min)",
     "byTheme": "By theme",
     "calendar": "Recent months",
     "empty": "Solve today's challenge to start your history.",
@@ -280,5 +285,99 @@
     "moved": "{color} played {move}",
     "white": "White",
     "black": "Black"
+  },
+  "review": {
+    "title": "Review",
+    "subtitle": "Puzzles you missed or solved with help come back here. Solve one with no mistakes and no hints and it leaves the list.",
+    "left": "{n} in the queue",
+    "cleared": "You've got this one now.",
+    "again": "Not yet. It goes back to the end of the queue.",
+    "finish": "Finish",
+    "empty": "Nothing to review. When you miss a puzzle, it shows up here.",
+    "doneSession": "You went through the whole queue. The ones left come back next time.",
+    "clearedTotal": "{n, plural, one {# puzzle reviewed so far.} other {# puzzles reviewed so far.}}",
+    "goTrain": "Go to training"
+  },
+  "achievements": {
+    "title": "Achievements",
+    "unlocked": "unlocked",
+    "firstDaily": {
+      "name": "Day one",
+      "desc": "Solve a daily challenge."
+    },
+    "streak3": {
+      "name": "Finding the rhythm",
+      "desc": "{n}-day streak."
+    },
+    "streak7": {
+      "name": "Full week",
+      "desc": "{n}-day streak."
+    },
+    "streak30": {
+      "name": "Master's habit",
+      "desc": "{n}-day streak."
+    },
+    "clean10": {
+      "name": "Flawless",
+      "desc": "Solve {n} daily challenges with no mistakes or hints."
+    },
+    "triple": {
+      "name": "Hat trick",
+      "desc": "Solve all three levels on the same day."
+    },
+    "hard5": {
+      "name": "Cool head",
+      "desc": "Solve {n} hard-level challenges."
+    },
+    "archive10": {
+      "name": "Time traveler",
+      "desc": "Solve {n} archive days."
+    },
+    "train50": {
+      "name": "Warmed up",
+      "desc": "Solve {n} training puzzles."
+    },
+    "train250": {
+      "name": "Relentless",
+      "desc": "Solve {n} training puzzles."
+    },
+    "explorer": {
+      "name": "Explorer",
+      "desc": "Train {n} different themes."
+    },
+    "rating1500": {
+      "name": "Climbing",
+      "desc": "Reach a {n} rating."
+    },
+    "rating1800": {
+      "name": "Strong",
+      "desc": "Reach a {n} rating."
+    },
+    "rush15": {
+      "name": "Quick hands",
+      "desc": "Score {n} in a Rush."
+    },
+    "rush30": {
+      "name": "Lightning",
+      "desc": "Score {n} in a Rush."
+    },
+    "classics": {
+      "name": "Historian",
+      "desc": "Solve all {n} classics."
+    },
+    "review10": {
+      "name": "Lesson learned",
+      "desc": "Clear {n} puzzles from Review."
+    }
+  },
+  "backup": {
+    "title": "Progress backup",
+    "body": "Without an account, your progress lives only in this browser. Download a file to keep it or move it to another device.",
+    "download": "Download backup",
+    "restore": "Restore backup",
+    "confirm": "Restoring replaces this browser's progress with the file's. Continue?",
+    "saved": "Backup downloaded.",
+    "restored": "Progress restored.",
+    "invalid": "That file isn't a Daily Chess backup."
   }
 }

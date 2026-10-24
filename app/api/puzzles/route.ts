@@ -6,7 +6,8 @@ export function GET(req: NextRequest) {
   const params = req.nextUrl.searchParams;
 
   if (params.get("mode") === "rush") {
-    return NextResponse.json(getRush(60), { headers: { "Cache-Control": "no-store" } });
+    const count = Math.min(120, Math.max(10, Number(params.get("count")) || 60));
+    return NextResponse.json(getRush(count), { headers: { "Cache-Control": "no-store" } });
   }
 
   const theme = params.get("theme") ?? "";

@@ -14,6 +14,7 @@ export function TrainingSession({ theme }: { theme: ThemeKey }) {
   const hydrated = useHydrated();
   const rating = useStore((s) => s.rating);
   const recordTraining = useStore((s) => s.recordTraining);
+  const addReview = useStore((s) => s.addReview);
   const [queue, setQueue] = useState<Puzzle[]>([]);
   const [current, setCurrent] = useState<Puzzle | null>(null);
   const [attempt, setAttempt] = useState(0);
@@ -62,12 +63,13 @@ export function TrainingSession({ theme }: { theme: ThemeKey }) {
         return;
       }
       const success = o.solved && o.mistakes === 0 && o.hints === 0;
+      if (!success) addReview(current);
       const before = useStore.getState().rating;
       recordTraining({ id: current.id, theme, puzzleRating: current.rating, success });
       setOutcome({ success, solved: o.solved, delta: useStore.getState().rating - before });
       setRun((n) => (success ? n + 1 : 0));
     },
-    [current, attempt, theme, recordTraining],
+    [current, attempt, theme, recordTraining, addReview],
   );
 
   const next = () => {

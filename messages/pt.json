@@ -10,7 +10,8 @@
     "classics": "Clássicos",
     "archive": "Arquivo",
     "profile": "Perfil",
-    "settings": "Ajustes"
+    "settings": "Ajustes",
+    "review": "Revisão"
   },
   "weekday": {
     "0": "Domingo",
@@ -183,11 +184,13 @@
     "streakLabel": "{n} seguidos",
     "loading": "Carregando puzzles…",
     "error": "Não conseguimos carregar os puzzles. Verifique a conexão e tente de novo.",
-    "back": "Todos os temas"
+    "back": "Todos os temas",
+    "reviewCta": "{n, plural, one {# puzzle para revisar} other {# puzzles para revisar}}",
+    "reviewCtaBody": "Refaça os que você errou até acertar de primeira."
   },
   "rush": {
     "title": "Rush",
-    "subtitle": "Três minutos, três vidas. Os puzzles ficam mais difíceis a cada acerto.",
+    "subtitle": "{min} minutos, três vidas. Os puzzles ficam mais difíceis a cada acerto.",
     "start": "Começar",
     "best": "Recorde: {n}",
     "score": "Acertos",
@@ -197,11 +200,13 @@
     "finalScore": "{n, plural, =0 {Nenhum puzzle resolvido desta vez.} one {# puzzle resolvido.} other {# puzzles resolvidos.}}",
     "newRecord": "Novo recorde!",
     "again": "Jogar de novo",
-    "rule1": "3 minutos no relógio. Cada acerto conta um ponto.",
+    "rule1": "{min} minutos no relógio. Cada acerto conta um ponto.",
     "rule2": "3 vidas. Um lance errado custa uma vida.",
     "rule3": "Começa fácil e esquenta a cada puzzle.",
     "scoreLabel": "acertos",
-    "clockLabel": "Relógio do Rush: 3 minutos"
+    "clockLabel": "Relógio do Rush: {min} minutos",
+    "durationLabel": "Duração do Rush",
+    "minutes": "{min} min"
   },
   "classics": {
     "title": "Clássicos",
@@ -235,7 +240,7 @@
     "streak": "Sequência atual",
     "bestStreak": "Melhor sequência",
     "dailySolved": "Desafios resolvidos",
-    "rushBest": "Recorde no Rush",
+    "rushBest": "Recorde no Rush (3 · 5 min)",
     "byTheme": "Por tema",
     "calendar": "Últimos meses",
     "empty": "Resolva o desafio de hoje para começar seu histórico.",
@@ -280,5 +285,99 @@
     "moved": "{color} jogou {move}",
     "white": "Brancas",
     "black": "Pretas"
+  },
+  "review": {
+    "title": "Revisão",
+    "subtitle": "Os puzzles que você errou ou resolveu com ajuda voltam aqui. Acertou sem erro e sem dica, ele sai da lista.",
+    "left": "{n, plural, one {# na fila} other {# na fila}}",
+    "cleared": "Esse você domina agora.",
+    "again": "Ainda não. Ele volta para o fim da fila.",
+    "finish": "Terminar",
+    "empty": "Nada para revisar. Quando errar um puzzle, ele aparece aqui.",
+    "doneSession": "Você passou por toda a fila. Os que ainda faltam voltam na próxima vez.",
+    "clearedTotal": "{n, plural, one {# puzzle revisado até agora.} other {# puzzles revisados até agora.}}",
+    "goTrain": "Ir para o treino"
+  },
+  "achievements": {
+    "title": "Conquistas",
+    "unlocked": "conquistada",
+    "firstDaily": {
+      "name": "Primeiro dia",
+      "desc": "Resolva um desafio do dia."
+    },
+    "streak3": {
+      "name": "Pegando o ritmo",
+      "desc": "Sequência de {n} dias."
+    },
+    "streak7": {
+      "name": "Semana completa",
+      "desc": "Sequência de {n} dias."
+    },
+    "streak30": {
+      "name": "Hábito de mestre",
+      "desc": "Sequência de {n} dias."
+    },
+    "clean10": {
+      "name": "Impecável",
+      "desc": "Resolva {n} desafios do dia sem erro e sem dica."
+    },
+    "triple": {
+      "name": "Trinca",
+      "desc": "Resolva os três níveis do mesmo dia."
+    },
+    "hard5": {
+      "name": "Cabeça fria",
+      "desc": "Resolva {n} desafios no nível difícil."
+    },
+    "archive10": {
+      "name": "Viajante do tempo",
+      "desc": "Resolva {n} dias do arquivo."
+    },
+    "train50": {
+      "name": "Aquecido",
+      "desc": "Acerte {n} puzzles no treino."
+    },
+    "train250": {
+      "name": "Incansável",
+      "desc": "Acerte {n} puzzles no treino."
+    },
+    "explorer": {
+      "name": "Explorador",
+      "desc": "Treine {n} temas diferentes."
+    },
+    "rating1500": {
+      "name": "Subindo",
+      "desc": "Chegue a {n} de nível."
+    },
+    "rating1800": {
+      "name": "Forte",
+      "desc": "Chegue a {n} de nível."
+    },
+    "rush15": {
+      "name": "Mãos rápidas",
+      "desc": "Faça {n} pontos num Rush."
+    },
+    "rush30": {
+      "name": "Relâmpago",
+      "desc": "Faça {n} pontos num Rush."
+    },
+    "classics": {
+      "name": "Historiador",
+      "desc": "Resolva todos os {n} clássicos."
+    },
+    "review10": {
+      "name": "Aprendi a lição",
+      "desc": "Tire {n} puzzles da Revisão."
+    }
+  },
+  "backup": {
+    "title": "Backup do progresso",
+    "body": "Sem conta, seu progresso fica só neste navegador. Baixe um arquivo para guardar ou levar para outro aparelho.",
+    "download": "Baixar backup",
+    "restore": "Restaurar backup",
+    "confirm": "Restaurar substitui o progresso deste navegador pelo do arquivo. Continuar?",
+    "saved": "Backup baixado.",
+    "restored": "Progresso restaurado.",
+    "invalid": "Esse arquivo não é um backup do Daily Chess."
   }
 }

@@ -1,5 +1,5 @@
 // Service worker do Daily Chess: app offline depois da primeira visita.
-const VERSION = "dc-v1";
+const VERSION = "dc-v2";
 const STATIC = `${VERSION}-static`;
 const PAGES = `${VERSION}-pages`;
 

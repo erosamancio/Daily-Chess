@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, RotateCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { MiniBoard } from "@/components/board/MiniBoard";
 import { Link } from "@/i18n/navigation";
@@ -14,9 +14,22 @@ export function ThemeList({ themes }: { themes: Item[] }) {
   const hydrated = useHydrated();
   const stats = useStore((s) => s.themeStats);
   const rating = useStore((s) => s.rating);
+  const reviewCount = useStore((s) => s.review.length);
 
   return (
     <div className="flex flex-col gap-4">
+      {hydrated && reviewCount > 0 && (
+        <Link href="/revisao" className="group flex items-center gap-4 rounded-2xl bg-accent-soft p-4 transition hover:brightness-[0.98]">
+          <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-surface text-accent">
+            <RotateCcw className="size-5" strokeWidth={2.4} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="font-semibold">{t("train.reviewCta", { n: reviewCount })}</p>
+            <p className="text-sm text-ink-2">{t("train.reviewCtaBody")}</p>
+          </div>
+          <ChevronRight className="size-5 shrink-0 text-ink-2 transition group-hover:translate-x-0.5" />
+        </Link>
+      )}
       <p className="text-sm font-semibold text-ink-2">
         {t("train.yourRating", { rating: hydrated ? rating : "—" })}
       </p>

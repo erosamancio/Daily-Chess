@@ -9,22 +9,26 @@ import { formatTime } from "@/lib/share";
 import { useHydrated, useStore } from "@/lib/store";
 import type { Puzzle } from "@/lib/types";
 
-const DURATION_MS = 180_000;
 const LIVES = 3;
+const DURATIONS = [3, 5] as const;
+type Minutes = (typeof DURATIONS)[number];
 
 type Status = "idle" | "loading" | "playing" | "over";
 
 export function RushGame() {
   const t = useTranslations();
   const hydrated = useHydrated();
-  const best = useStore((s) => s.rushBest);
+  const [minutes, setMinutes] = useState<Minutes>(3);
+  const durationMs = minutes * 60_000;
+  const best = useStore((s) => (minutes === 5 ? s.rushBest5 : s.rushBest));
   const recordRush = useStore((s) => s.recordRush);
+  const addReview = useStore((s) => s.addReview);
   const [status, setStatus] = useState<Status>("idle");
   const [puzzles, setPuzzles] = useState<Puzzle[]>([]);
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(LIVES);
-  const [remaining, setRemaining] = useState(DURATION_MS);
+  const [remaining, setRemaining] = useState(durationMs);
   const [results, setResults] = useState<boolean[]>([]);
   const [prevBest, setPrevBest] = useState(0);
   const endAt = useRef(0);
@@ -32,16 +36,17 @@ export function RushGame() {
   const start = async () => {
     setStatus("loading");
     try {
-      const res = await fetch("/api/puzzles?mode=rush");
+      const res = await fetch(`/api/puzzles?mode=rush&count=${minutes === 5 ? 90 : 60}`);
       const list: Puzzle[] = await res.json();
       setPuzzles(list);
       setIndex(0);
       setScore(0);
       setLives(LIVES);
       setResults([]);
-      setPrevBest(useStore.getState().rushBest);
-      endAt.current = performance.now() + DURATION_MS;
-      setRemaining(DURATION_MS);
+      const saved = useStore.getState();
+      setPrevBest(minutes === 5 ? saved.rushBest5 : saved.rushBest);
+      endAt.current = performance.now() + durationMs;
+      setRemaining(durationMs);
       setStatus("playing");
     } catch {
       setStatus("idle");
@@ -51,9 +56,9 @@ export function RushGame() {
   const end = useCallback(
     (finalScore: number) => {
       setStatus("over");
-      recordRush(finalScore);
+      recordRush(finalScore, minutes);
     },
-    [recordRush],
+    [recordRush, minutes],
   );
 
   useEffect(() => {
@@ -68,6 +73,7 @@ export function RushGame() {
 
   const onFinish = useCallback(
     (o: PuzzleOutcome) => {
+      if (!o.solved && puzzles[index]) addReview(puzzles[index]);
       const newScore = score + (o.solved ? 1 : 0);
       const newLives = lives - (o.solved ? 0 : 1);
       setScore(newScore);
@@ -79,7 +85,7 @@ export function RushGame() {
       }
       window.setTimeout(() => setIndex((i) => i + 1), o.solved ? 450 : 700);
     },
-    [score, lives, index, puzzles.length, end],
+    [score, lives, index, puzzles, end, addReview],
   );
 
   const current = puzzles[index];
@@ -130,22 +136,22 @@ export function RushGame() {
       <ChessClock
         className="lg:order-last"
         label={isOver ? t("rush.scoreLabel") : t("rush.timeLeft")}
-        value={isOver ? String(score) : "3:00"}
+        value={isOver ? String(score) : `${minutes}:00`}
         lives={isOver ? lives : LIVES}
         livesLabel={t("rush.lives")}
-        ariaLabel={isOver ? t("rush.finalScore", { n: score }) : t("rush.clockLabel")}
+        ariaLabel={isOver ? t("rush.finalScore", { n: score }) : t("rush.clockLabel", { min: minutes })}
       />
       <div className="flex flex-col items-start gap-7">
         <div>
           <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-6xl">{isOver ? t("rush.over") : t("rush.title")}</h1>
           <p className="mt-3 max-w-prose text-lg leading-relaxed text-ink-2">
-            {isOver ? t("rush.finalScore", { n: score }) : t("rush.subtitle")}
+            {isOver ? t("rush.finalScore", { n: score }) : t("rush.subtitle", { min: minutes })}
           </p>
         </div>
         {!isOver && (
           <ul className="flex flex-col gap-3">
             {[
-              { icon: Timer, text: t("rush.rule1") },
+              { icon: Timer, text: t("rush.rule1", { min: minutes }) },
               { icon: Heart, text: t("rush.rule2") },
               { icon: TrendingUp, text: t("rush.rule3") },
             ].map(({ icon: Icon, text }) => (
@@ -166,6 +172,23 @@ export function RushGame() {
             <ResultTrail results={results} />
           </div>
         )}
+        <div role="radiogroup" aria-label={t("rush.durationLabel")} className="flex rounded-full bg-surface-2 p-1">
+          {DURATIONS.map((m) => (
+            <button
+              key={m}
+              type="button"
+              role="radio"
+              aria-checked={minutes === m}
+              disabled={status === "loading"}
+              onClick={() => setMinutes(m)}
+              className={`h-10 rounded-full px-5 text-sm font-semibold transition-colors ${
+                minutes === m ? "bg-surface text-ink shadow-card" : "text-ink-2 hover:text-ink"
+              }`}
+            >
+              {t("rush.minutes", { min: m })}
+            </button>
+          ))}
+        </div>
         <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
           <button
             type="button"

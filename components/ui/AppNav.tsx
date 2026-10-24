@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays, Dumbbell, Landmark, Timer, User, Sun } from "lucide-react";
+import { CalendarDays, Dumbbell, Landmark, RotateCcw, Timer, User, Sun } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { Wordmark } from "./Logo";
@@ -10,6 +10,7 @@ const ITEMS = [
   { href: "/treino", key: "train", icon: Dumbbell },
   { href: "/rush", key: "rush", icon: Timer },
   { href: "/classicos", key: "classics", icon: Landmark },
+  { href: "/revisao", key: "review", icon: RotateCcw, desktopOnly: true },
   { href: "/arquivo", key: "archive", icon: CalendarDays, desktopOnly: true },
   { href: "/perfil", key: "profile", icon: User },
 ] as const;

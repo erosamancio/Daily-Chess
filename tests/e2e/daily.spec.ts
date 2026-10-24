@@ -90,3 +90,40 @@ test("arquivo abre um dia anterior e inglês funciona", async ({ page }) => {
   await page.goto("/en/treino");
   await expect(page.getByRole("heading", { name: "Train by theme" })).toBeVisible();
 });
+
+test("diário tem níveis fácil e difícil", async ({ page }) => {
+  await page.goto("/");
+  await skipOnboarding(page);
+  await page.getByRole("tab", { name: "Fácil" }).click();
+  await expect(page.getByRole("tab", { name: "Fácil" })).toHaveAttribute("aria-selected", "true");
+  await expect(page.getByText(/Encontre o (mate|melhor lance)/)).toBeVisible({ timeout: 15_000 });
+  await page.getByRole("tab", { name: "Difícil" }).click();
+  await expect(page.getByText(/Encontre o (mate|melhor lance)/)).toBeVisible({ timeout: 15_000 });
+});
+
+test("revisão traz o puzzle errado de volta", async ({ page }) => {
+  await page.goto("/revisao");
+  await expect(page.getByText("Nada para revisar.", { exact: false })).toBeVisible();
+  await page.evaluate((p) => {
+    localStorage.setItem("daily-chess", JSON.stringify({ state: { review: [p], settings: { sound: false, boardTheme: "green", onboarded: true } }, version: 1 }));
+  }, today);
+  await page.reload();
+  await expect(page.getByText("1 na fila")).toBeVisible();
+  await expect(page.locator(".dc-board")).toBeVisible();
+});
+
+test("perfil mostra conquistas e baixa o backup", async ({ page }) => {
+  await page.goto("/perfil");
+  await expect(page.getByRole("heading", { name: "Conquistas" })).toBeVisible();
+  const download = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Baixar backup" }).click();
+  expect((await download).suggestedFilename()).toMatch(/^daily-chess-\d{4}-\d{2}-\d{2}\.json$/);
+});
+
+test("rush de 5 minutos", async ({ page }) => {
+  await page.goto("/rush");
+  await page.getByRole("radio", { name: "5 min" }).click();
+  await expect(page.getByText("5:00")).toBeVisible();
+  await page.getByRole("button", { name: "Começar" }).click();
+  await expect(page.locator(".dc-board")).toBeVisible();
+});

@@ -78,7 +78,7 @@ export function getRush(count: number): Puzzle[] {
   const all = themes.flatMap((t) => loadTheme(t)).filter((p) => p.moves.length <= 6);
   const out: Puzzle[] = [];
   for (let i = 0; i < count; i++) {
-    const target = 700 + i * 45;
+    const target = Math.min(2500, 700 + i * 45);
     const band = all.filter((p) => Math.abs(p.rating - target) <= 60);
     out.push(sample(band.length ? band : all, 1)[0]);
   }

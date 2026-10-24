@@ -40,6 +40,7 @@ export function DailyChallenge({
   const recordDaily = useStore((s) => s.recordDaily);
   const recordArchive = useStore((s) => s.recordArchive);
   const recordDailyLevel = useStore((s) => s.recordDailyLevel);
+  const addReview = useStore((s) => s.addReview);
   const onboarded = useStore((s) => s.settings.onboarded);
   const streak = useStreak();
   const [records, setRecords] = useState<Partial<Record<DailyLevel, DailyRecord>>>({});
@@ -60,11 +61,12 @@ export function DailyChallenge({
         marks: o.marks,
       };
       setRecords((r) => ({ ...r, [level]: rec }));
+      if (!o.solved || o.mistakes > 0 || o.hints > 0) addReview(puzzle);
       if (level !== "normal") recordDailyLevel(date, level, rec);
       else if (mode === "today") recordDaily(date, rec);
       else recordArchive(date, rec);
     },
-    [date, mode, level, recordDaily, recordArchive, recordDailyLevel],
+    [date, mode, level, puzzle, recordDaily, recordArchive, recordDailyLevel, addReview],
   );
 
   // No celular, traz o resultado para a tela depois de resolver.
@@ -153,7 +155,7 @@ export function DailyChallenge({
 function LevelTabs({ level, onChange, done }: { level: DailyLevel; onChange: (l: DailyLevel) => void; done: (l: DailyLevel) => boolean }) {
   const t = useTranslations("daily");
   return (
-    <div role="tablist" aria-label={t("levelsLabel")} title={t("normalCountsStreak")} className="grid grid-cols-3 gap-1 rounded-full bg-surface-2 p-1">
+    <div role="tablist" aria-label={t("levelsLabel")} title={t("normalCountsStreak")} className="grid grid-cols-3 gap-1 rounded-full bg-surface-2 p-0.5 sm:p-1">
       {DAILY_LEVELS.map((l) => (
         <button
           key={l}
@@ -161,7 +163,7 @@ function LevelTabs({ level, onChange, done }: { level: DailyLevel; onChange: (l:
           role="tab"
           aria-selected={level === l}
           onClick={() => onChange(l)}
-          className={`inline-flex h-9 items-center justify-center gap-1.5 rounded-full text-sm font-semibold transition-colors ${
+          className={`inline-flex h-8 items-center justify-center gap-1.5 rounded-full text-sm font-semibold transition-colors sm:h-9 ${
             level === l ? "bg-surface text-ink shadow-card" : "text-ink-2 hover:text-ink"
           }`}
         >
