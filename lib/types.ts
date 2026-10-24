@@ -10,6 +10,15 @@ export const THEMES = [
   "deflection",
   "endgame",
   "advantage",
+  // Versão 2
+  "backRankMate",
+  "smotheredMate",
+  "hangingPiece",
+  "promotion",
+  "attraction",
+  "interference",
+  "quietMove",
+  "zugzwang",
 ] as const;
 
 export type ThemeKey = (typeof THEMES)[number];
@@ -46,3 +55,8 @@ export type Classic = {
 };
 
 export type DailyEntry = { date: string; number: number; puzzle: Puzzle };
+
+/** Níveis do diário. O "normal" é o calendário original (`DailyEntry`), que conta a sequência. */
+export const DAILY_LEVELS = ["easy", "normal", "hard"] as const;
+export type DailyLevel = (typeof DAILY_LEVELS)[number];
+export type DailyLevelsEntry = { date: string; easy: Puzzle; hard: Puzzle };

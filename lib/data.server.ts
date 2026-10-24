@@ -1,12 +1,13 @@
 import "server-only";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { dayNumber, todayKey } from "./daily";
-import type { DailyEntry, Puzzle, ThemeKey } from "./types";
+import type { DailyEntry, DailyLevelsEntry, Puzzle, ThemeKey } from "./types";
 
 const DATA = join(process.cwd(), "data");
 
 let schedule: DailyEntry[] | null = null;
+let levelsSchedule: DailyLevelsEntry[] | null = null;
 const themeCache = new Map<ThemeKey, Puzzle[]>();
 
 function loadSchedule(): DailyEntry[] {
@@ -34,6 +35,20 @@ export function getDaily(date: string): DailyEntry | null {
   return { ...entry, date, number: n };
 }
 
+/** Níveis fácil e difícil de uma data (mesmo ciclo do calendário principal). */
+export function getDailyLevels(date: string): { easy: Puzzle; hard: Puzzle } | null {
+  if (date > todayKey()) return null;
+  const n = dayNumber(date);
+  if (n < 1) return null;
+  if (!levelsSchedule) {
+    const file = join(DATA, "daily-levels.json");
+    if (!existsSync(file)) return null;
+    levelsSchedule = JSON.parse(readFileSync(file, "utf8")) as DailyLevelsEntry[];
+  }
+  const { easy, hard } = levelsSchedule[(n - 1) % levelsSchedule.length];
+  return { easy, hard };
+}
+
 export function getToday(): DailyEntry {
   return getDaily(todayKey())!;
 }
@@ -47,7 +62,19 @@ export function getTraining(theme: ThemeKey, rating: number, exclude: Set<string
 
 /** Rush: puzzles curtos de todos os temas, em ordem crescente de dificuldade. */
 export function getRush(count: number): Puzzle[] {
-  const themes: ThemeKey[] = ["mateIn1", "mateIn2", "fork", "pin", "skewer", "discoveredAttack", "deflection", "sacrifice"];
+  const themes: ThemeKey[] = [
+    "mateIn1",
+    "mateIn2",
+    "fork",
+    "pin",
+    "skewer",
+    "discoveredAttack",
+    "deflection",
+    "sacrifice",
+    "backRankMate",
+    "hangingPiece",
+    "attraction",
+  ];
   const all = themes.flatMap((t) => loadTheme(t)).filter((p) => p.moves.length <= 6);
   const out: Puzzle[] = [];
   for (let i = 0; i < count; i++) {

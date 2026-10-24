@@ -1,6 +1,6 @@
 "use client";
 
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Check } from "lucide-react";
 import { useFormatter, useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PuzzleBoard, type PuzzleOutcome } from "@/components/board/PuzzleBoard";
@@ -8,7 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { weekday } from "@/lib/daily";
 import { useHydrated, useStore, useStreak } from "@/lib/store";
 import type { DailyRecord } from "@/lib/streak";
-import type { DailyEntry, ThemeKey } from "@/lib/types";
+import { DAILY_LEVELS, type DailyEntry, type DailyLevel, type Puzzle, type ThemeKey } from "@/lib/types";
 import { Onboarding } from "./Onboarding";
 import { ResultCard } from "./ResultCard";
 import { WeekStrip } from "./WeekStrip";
@@ -19,20 +19,36 @@ export function useGoal(theme: ThemeKey) {
   return mate ? t("findMate", { n: Number(mate[1]) }) : t("findBest");
 }
 
-export function DailyChallenge({ entry, mode }: { entry: DailyEntry; mode: "today" | "archive" }) {
+export function DailyChallenge({
+  entry,
+  levels,
+  mode,
+}: {
+  entry: DailyEntry;
+  /** Níveis fácil e difícil do dia; ausentes se os dados ainda não foram gerados. */
+  levels: { easy: Puzzle; hard: Puzzle } | null;
+  mode: "today" | "archive";
+}) {
   const t = useTranslations();
   const format = useFormatter();
   const hydrated = useHydrated();
-  const { date, number, puzzle } = entry;
-  const saved = useStore((s) => s.daily[date] ?? (mode === "archive" ? s.archive[date] : undefined));
+  const { date, number } = entry;
+  const [level, setLevel] = useState<DailyLevel>("normal");
+  const puzzle = level === "normal" || !levels ? entry.puzzle : levels[level];
+  const savedNormal = useStore((s) => s.daily[date] ?? (mode === "archive" ? s.archive[date] : undefined));
+  const savedLevels = useStore((s) => s.dailyLevels[date]);
   const recordDaily = useStore((s) => s.recordDaily);
   const recordArchive = useStore((s) => s.recordArchive);
+  const recordDailyLevel = useStore((s) => s.recordDailyLevel);
   const onboarded = useStore((s) => s.settings.onboarded);
   const streak = useStreak();
-  const [record, setRecord] = useState<DailyRecord | null>(null);
+  const [records, setRecords] = useState<Partial<Record<DailyLevel, DailyRecord>>>({});
   const resultRef = useRef<HTMLDivElement>(null);
   const goal = useGoal(puzzle.theme);
   const wd = weekday(date);
+
+  const savedFor = (l: DailyLevel) => (l === "normal" ? savedNormal : l === "easy" || l === "hard" ? savedLevels?.[l] : undefined);
+  const record = records[level] ?? null;
 
   const onFinish = useCallback(
     (o: PuzzleOutcome) => {
@@ -43,11 +59,12 @@ export function DailyChallenge({ entry, mode }: { entry: DailyEntry; mode: "toda
         timeMs: Math.round(o.timeMs),
         marks: o.marks,
       };
-      setRecord(rec);
-      if (mode === "today") recordDaily(date, rec);
+      setRecords((r) => ({ ...r, [level]: rec }));
+      if (level !== "normal") recordDailyLevel(date, level, rec);
+      else if (mode === "today") recordDaily(date, rec);
       else recordArchive(date, rec);
     },
-    [date, mode, recordDaily, recordArchive],
+    [date, mode, level, recordDaily, recordArchive, recordDailyLevel],
   );
 
   // No celular, traz o resultado para a tela depois de resolver.
@@ -58,7 +75,7 @@ export function DailyChallenge({ entry, mode }: { entry: DailyEntry; mode: "toda
     }
   }, [record]);
 
-  const shown = record ?? (hydrated ? saved : undefined) ?? null;
+  const shown = record ?? (hydrated ? savedFor(level) : undefined) ?? null;
   const dateLabel = format.dateTime(new Date(`${date}T12:00:00Z`), { day: "numeric", month: "long", timeZone: "UTC" });
 
   return (
@@ -72,11 +89,18 @@ export function DailyChallenge({ entry, mode }: { entry: DailyEntry; mode: "toda
             {t("daily.number", { n: number })} · {t(`weekday.${wd}`)}, {dateLabel}
           </p>
         </div>
-        <LevelChip wd={wd} rating={puzzle.rating} />
+        <LevelChip wd={wd} level={level} rating={puzzle.rating} />
       </header>
 
-      <div className="min-w-0">
-        <PuzzleBoard puzzle={puzzle} puzzleKey={`${date}`} goal={goal} onFinish={onFinish} />
+      <div className="flex min-w-0 flex-col gap-3">
+        {levels && (
+          <LevelTabs
+            level={level}
+            onChange={setLevel}
+            done={(l) => hydrated && !!(records[l] ?? savedFor(l))}
+          />
+        )}
+        <PuzzleBoard puzzle={puzzle} puzzleKey={`${date}-${level}`} goal={goal} onFinish={onFinish} />
       </div>
 
       <aside className="flex min-w-0 flex-col gap-6">
@@ -88,7 +112,7 @@ export function DailyChallenge({ entry, mode }: { entry: DailyEntry; mode: "toda
             <span>
               {t("daily.number", { n: number })} · {t(`weekday.${wd}`)}, {dateLabel}
             </span>
-            <LevelChip wd={wd} rating={puzzle.rating} />
+            <LevelChip wd={wd} level={level} rating={puzzle.rating} />
           </div>
         </header>
 
@@ -98,7 +122,8 @@ export function DailyChallenge({ entry, mode }: { entry: DailyEntry; mode: "toda
               record={shown}
               number={number}
               theme={puzzle.theme}
-              streak={mode === "today" ? streak.current : 0}
+              level={level === "normal" ? undefined : t(`daily.levels.${level}`)}
+              streak={mode === "today" && level === "normal" ? streak.current : 0}
               gameUrl={puzzle.gameUrl}
               showCountdown={mode === "today"}
             />
@@ -125,12 +150,51 @@ export function DailyChallenge({ entry, mode }: { entry: DailyEntry; mode: "toda
   );
 }
 
-function LevelChip({ wd, rating }: { wd: number; rating: number }) {
+function LevelTabs({ level, onChange, done }: { level: DailyLevel; onChange: (l: DailyLevel) => void; done: (l: DailyLevel) => boolean }) {
+  const t = useTranslations("daily");
+  return (
+    <div role="tablist" aria-label={t("levelsLabel")} title={t("normalCountsStreak")} className="grid grid-cols-3 gap-1 rounded-full bg-surface-2 p-1">
+      {DAILY_LEVELS.map((l) => (
+        <button
+          key={l}
+          type="button"
+          role="tab"
+          aria-selected={level === l}
+          onClick={() => onChange(l)}
+          className={`inline-flex h-9 items-center justify-center gap-1.5 rounded-full text-sm font-semibold transition-colors ${
+            level === l ? "bg-surface text-ink shadow-card" : "text-ink-2 hover:text-ink"
+          }`}
+        >
+          {t(`levels.${l}`)}
+          {done(l) && (
+            <>
+              <Check className="size-3.5 text-good" strokeWidth={3} aria-hidden />
+              <span className="sr-only">({t("levelDone")})</span>
+            </>
+          )}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function LevelChip({ wd, level, rating }: { wd: number; level: DailyLevel; rating: number }) {
   const t = useTranslations();
-  const tone = wd === 0 ? "bg-ink text-bg" : wd >= 5 ? "bg-bad-soft text-bad" : wd >= 3 ? "bg-accent-soft text-ink" : "bg-good-soft text-good";
+  const tone =
+    level === "easy"
+      ? "bg-good-soft text-good"
+      : level === "hard"
+        ? "bg-ink text-bg"
+        : wd === 0
+          ? "bg-ink text-bg"
+          : wd >= 5
+            ? "bg-bad-soft text-bad"
+            : wd >= 3
+              ? "bg-accent-soft text-ink"
+              : "bg-good-soft text-good";
   return (
     <span className={`inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full px-3 text-xs font-bold ${tone}`} title={t("daily.ratingTitle")}>
-      {t(`level.${wd}`)}
+      {level === "normal" ? t(`level.${wd}`) : t(`daily.levels.${level}`)}
       <span aria-hidden>·</span>
       <span className="font-mono font-medium tabular">
         <span className="sr-only">{t("daily.ratingTitle")}: </span>

@@ -21,10 +21,12 @@ export function buildShareText(opts: {
   streak: number;
   solved: boolean;
   url: string;
+  /** Nome do nível (fácil/difícil); o normal não leva rótulo. */
+  level?: string;
 }): string {
   const status = opts.solved ? "✅" : "❌";
   const lines = [
-    `Daily Chess #${opts.number} ♟️ ${status}`,
+    `Daily Chess #${opts.number}${opts.level ? ` · ${opts.level}` : ""} ♟️ ${status}`,
     opts.marks.map((m) => EMOJI[m]).join(""),
     `⏱ ${formatTime(opts.timeMs)}${opts.streak > 1 ? ` · 🔥 ${opts.streak}` : ""}`,
     opts.url,

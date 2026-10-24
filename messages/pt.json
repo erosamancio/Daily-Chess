@@ -39,7 +39,15 @@
     "archiveCta": "Jogar dias anteriores",
     "weekCurve": "A dificuldade sobe ao longo da semana: segunda é fácil, domingo é para mestres.",
     "today": "Hoje",
-    "ratingTitle": "Dificuldade do puzzle (rating)"
+    "ratingTitle": "Dificuldade do puzzle (rating)",
+    "levels": {
+      "easy": "Fácil",
+      "normal": "Normal",
+      "hard": "Difícil"
+    },
+    "levelsLabel": "Nível do desafio",
+    "normalCountsStreak": "O normal conta para a sequência e sobe de dificuldade ao longo da semana.",
+    "levelDone": "feito"
   },
   "puzzle": {
     "whiteToMove": "Brancas jogam",
@@ -132,6 +140,38 @@
     "advantage": {
       "name": "Ganhe vantagem",
       "desc": "Uma sequência de lances que termina com você claramente melhor. Pense alguns lances à frente."
+    },
+    "backRankMate": {
+      "name": "Mate do corredor",
+      "desc": "O rei preso atrás dos próprios peões não tem para onde fugir. Uma torre ou dama na última fileira resolve."
+    },
+    "smotheredMate": {
+      "name": "Mate de Philidor",
+      "desc": "O rei cercado pelas próprias peças leva mate de um cavalo. Muitas vezes vem depois de um sacrifício de dama."
+    },
+    "hangingPiece": {
+      "name": "Peça pendurada",
+      "desc": "Uma peça sem defesa está esperando para ser capturada. Ache e ganhe material de graça."
+    },
+    "promotion": {
+      "name": "Promoção",
+      "desc": "Leve o peão até o fim do tabuleiro. Às vezes a melhor promoção não é a dama."
+    },
+    "attraction": {
+      "name": "Atração",
+      "desc": "Um sacrifício puxa uma peça (muitas vezes o rei) para uma casa ruim, onde ela sofre um ataque decisivo."
+    },
+    "interference": {
+      "name": "Interferência",
+      "desc": "Coloque uma peça entre duas peças inimigas que se defendem e corte a ligação entre elas."
+    },
+    "quietMove": {
+      "name": "Lance quieto",
+      "desc": "Sem xeque e sem captura, mas o lance prepara uma ameaça que não tem defesa."
+    },
+    "zugzwang": {
+      "name": "Zugzwang",
+      "desc": "O adversário é obrigado a jogar, e qualquer lance piora a posição dele."
     }
   },
   "train": {

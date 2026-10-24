@@ -15,6 +15,7 @@ export function ResultCard({
   record,
   number,
   theme,
+  level,
   streak,
   gameUrl,
   showCountdown,
@@ -22,6 +23,8 @@ export function ResultCard({
   record: DailyRecord;
   number: number;
   theme: ThemeKey;
+  /** Rótulo do nível (fácil/difícil); ausente no normal. */
+  level?: string;
   streak: number;
   gameUrl?: string;
   showCountdown: boolean;
@@ -40,6 +43,7 @@ export function ResultCard({
     timeMs: record.timeMs,
     streak,
     solved,
+    level,
     url: typeof window !== "undefined" ? window.location.host : "dailychess.app",
   });
 

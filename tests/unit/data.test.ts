@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { CLASSICS } from "@/data/classics.source";
 import { getClassics } from "@/lib/classics";
 import { parseUci } from "@/lib/puzzle-engine";
-import { THEMES, type DailyEntry, type Puzzle } from "@/lib/types";
+import { THEMES, type DailyEntry, type DailyLevelsEntry, type Puzzle } from "@/lib/types";
 
 const DATA = join(__dirname, "..", "..", "data");
 
@@ -60,5 +60,27 @@ describe.runIf(hasData)("puzzles gerados", () => {
       const list: Puzzle[] = JSON.parse(readFileSync(join(DATA, "puzzles", `${theme}.json`), "utf8"));
       for (const p of list) expect(dailyIds.has(p.id)).toBe(false);
     }
+  });
+
+  it("níveis fácil e difícil: legais, nas faixas e sem repetir nada", { timeout: 30_000 }, () => {
+    const levels: DailyLevelsEntry[] = JSON.parse(readFileSync(join(DATA, "daily-levels.json"), "utf8"));
+    const schedule: DailyEntry[] = JSON.parse(readFileSync(join(DATA, "daily-schedule.json"), "utf8"));
+    expect(levels.length).toBe(schedule.length);
+    const taken = new Set(schedule.map((d) => d.puzzle.id));
+    for (const theme of THEMES) {
+      const list: Puzzle[] = JSON.parse(readFileSync(join(DATA, "puzzles", `${theme}.json`), "utf8"));
+      list.forEach((p) => taken.add(p.id));
+    }
+    levels.forEach((d, i) => {
+      expect(d.date).toBe(schedule[i].date);
+      expect(d.easy.rating).toBeLessThan(1100);
+      expect(d.hard.rating).toBeGreaterThanOrEqual(2100);
+      for (const p of [d.easy, d.hard]) {
+        expect(taken.has(p.id)).toBe(false);
+        taken.add(p.id);
+        const end = playLine(p.fen, p.moves);
+        if (p.theme.startsWith("mateIn")) expect(end.isCheckmate()).toBe(true);
+      }
+    });
   });
 });

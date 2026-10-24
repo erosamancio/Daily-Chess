@@ -39,7 +39,15 @@
     "archiveCta": "Play previous days",
     "weekCurve": "Difficulty rises through the week: Monday is easy, Sunday is for masters.",
     "today": "Today",
-    "ratingTitle": "Puzzle difficulty (rating)"
+    "ratingTitle": "Puzzle difficulty (rating)",
+    "levels": {
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard"
+    },
+    "levelsLabel": "Challenge level",
+    "normalCountsStreak": "Normal counts toward your streak and gets harder through the week.",
+    "levelDone": "done"
   },
   "puzzle": {
     "whiteToMove": "White to move",
@@ -132,6 +140,38 @@
     "advantage": {
       "name": "Gain advantage",
       "desc": "A sequence of moves that leaves you clearly better. Think a few moves ahead."
+    },
+    "backRankMate": {
+      "name": "Back-rank mate",
+      "desc": "The king is trapped behind its own pawns. A rook or queen on the last rank finishes it."
+    },
+    "smotheredMate": {
+      "name": "Smothered mate",
+      "desc": "The king is boxed in by its own pieces and mated by a knight, often after a queen sacrifice."
+    },
+    "hangingPiece": {
+      "name": "Hanging piece",
+      "desc": "An undefended piece is waiting to be taken. Find it and win material for free."
+    },
+    "promotion": {
+      "name": "Promotion",
+      "desc": "Push the pawn to the last rank. Sometimes the best promotion is not a queen."
+    },
+    "attraction": {
+      "name": "Attraction",
+      "desc": "A sacrifice lures a piece, often the king, onto a bad square where it gets hit hard."
+    },
+    "interference": {
+      "name": "Interference",
+      "desc": "Put a piece between two enemy pieces that defend each other and cut the link."
+    },
+    "quietMove": {
+      "name": "Quiet move",
+      "desc": "No check, no capture, but the move sets up a threat that can't be stopped."
+    },
+    "zugzwang": {
+      "name": "Zugzwang",
+      "desc": "Your opponent has to move, and every move makes things worse for them."
     }
   },
   "train": {

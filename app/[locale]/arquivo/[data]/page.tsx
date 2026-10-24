@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { DailyChallenge } from "@/components/puzzle/DailyChallenge";
 import { redirect } from "@/i18n/navigation";
-import { getDaily } from "@/lib/data.server";
+import { getDaily, getDailyLevels } from "@/lib/data.server";
 import { isValidDateKey, todayKey } from "@/lib/daily";
 
 export const dynamic = "force-dynamic";
@@ -20,5 +20,5 @@ export default async function ArchiveDayPage({ params }: { params: Promise<{ loc
   if (!isValidDateKey(data)) notFound();
   const entry = getDaily(data);
   if (!entry) notFound();
-  return <DailyChallenge entry={entry} mode="archive" />;
+  return <DailyChallenge entry={entry} levels={getDailyLevels(data)} mode="archive" />;
 }
