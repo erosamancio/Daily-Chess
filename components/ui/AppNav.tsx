@@ -55,7 +55,7 @@ export function BottomNav() {
   const isActive = useActive();
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/92 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface pb-[env(safe-area-inset-bottom)] lg:hidden"
       aria-label="Daily Chess"
     >
       <ul className="mx-auto flex max-w-lg">

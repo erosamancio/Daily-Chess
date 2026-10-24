@@ -4,30 +4,12 @@ import { Chess, type Square } from "chess.js";
 import { Lightbulb, Eye, RefreshCw, Keyboard } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { memo, useCallback, useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent } from "react";
-import type { Chessboard as ChessboardType } from "react-chessboard";
 import { parseUci, PuzzleEngine, type Hint } from "@/lib/puzzle-engine";
 import type { MoveMark } from "@/lib/share";
 import { playSound, vibrate } from "@/lib/sound";
 import { useStore } from "@/lib/store";
-import { BOARD_THEMES } from "./boardThemes";
-import { MiniBoard } from "./MiniBoard";
+import { Board } from "./Board";
 import { PromotionPicker } from "./PromotionPicker";
-
-// O tabuleiro interativo (drag-and-drop) é pesado: carrega depois da hidratação.
-// Até lá, o tabuleiro estático mostra a mesma posição, praticamente sem custo de JavaScript.
-let boardModule: Promise<typeof ChessboardType> | null = null;
-function useInteractiveBoard() {
-  const [Board, setBoard] = useState<typeof ChessboardType | null>(null);
-  useEffect(() => {
-    boardModule ??= import("react-chessboard").then((m) => m.Chessboard);
-    let alive = true;
-    void boardModule.then((C) => alive && setBoard(() => C));
-    return () => {
-      alive = false;
-    };
-  }, []);
-  return Board;
-}
 
 export type PuzzleOutcome = {
   solved: boolean;
@@ -53,12 +35,6 @@ type Props = {
 type Phase = "intro" | "play" | "wait" | "done";
 type Feedback = { kind: "good" | "bad" | "solved" | "revealed"; id: number } | null;
 
-const FILES = "abcdefgh";
-
-function chebyshev(a: string, b: string) {
-  return Math.max(Math.abs(FILES.indexOf(a[0]) - FILES.indexOf(b[0])), Math.abs(Number(a[1]) - Number(b[1])));
-}
-
 function isCapture(fen: string, uci: string) {
   try {
     return !!new Chess(fen).move(parseUci(uci)).captured;
@@ -71,9 +47,6 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
   const t = useTranslations("puzzle");
   const ta = useTranslations("a11y");
   const settings = useStore((s) => s.settings);
-  const colors = BOARD_THEMES[settings.boardTheme];
-
-  const Chessboard = useInteractiveBoard();
   const engineRef = useRef<PuzzleEngine | null>(null);
   const timers = useRef<number[]>([]);
   const stats = useRef({ mistakes: 0, hints: 0, struggle: false, revealed: false, marks: [] as MoveMark[], start: 0, finished: false });
@@ -87,7 +60,7 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
   const [flash, setFlash] = useState<{ square: string; kind: "good" | "bad"; id: number } | null>(null);
   const [feedback, setFeedback] = useState<Feedback>(null);
   const shakeRef = useRef<HTMLDivElement>(null);
-  const [ripple, setRipple] = useState<string | null>(null);
+  const [ripple, setRipple] = useState<{ from: string; id: number } | null>(null);
   const [promo, setPromo] = useState<{ from: Square; to: Square } | null>(null);
   const [orientation, setOrientation] = useState<"white" | "black">(() => new PuzzleEngine(puzzle).playerColor);
   const [announce, setAnnounce] = useState("");
@@ -231,7 +204,7 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
       if (result.kind === "solved") {
         setFen(engine.fen);
         setLastMove({ from, to });
-        setRipple(to);
+        setRipple({ from: to, id: Date.now() });
         setFeedback({ kind: s.revealed ? "revealed" : "solved", id: Date.now() });
         sound(isCapture(before, result.uci) ? "capture" : "move");
         later(() => sound("solved"), 120);
@@ -289,20 +262,21 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
     stats.current.struggle = true;
   };
 
-  const onSquareClick = ({ square, piece }: { square: string; piece: { pieceType: string } | null }) => {
-    const engine = engineRef.current;
-    if (!engine || phase !== "play") return;
-    const sq = square as Square;
-    if (selected && selected !== sq && engine.legalTargets(selected).includes(sq)) {
-      attempt(selected, sq);
-      return;
-    }
-    if (piece && piece.pieceType[0] === engine.playerColor[0]) {
-      setSelected(selected === sq ? null : sq);
-      return;
-    }
-    setSelected(null);
-  };
+  const isTarget = useCallback(
+    (sq: string) => !!selected && !!engineRef.current?.legalTargets(selected).includes(sq as Square),
+    [selected],
+  );
+  const canPick = useCallback(
+    (sq: string) => {
+      const engine = engineRef.current;
+      if (!engine || phase !== "play") return false;
+      const piece = new Chess(engine.fen).get(sq as Square);
+      return !!piece && piece.color === engine.playerColor[0];
+    },
+    [phase],
+  );
+  const onSelect = useCallback((sq: string | null) => setSelected(sq as Square | null), []);
+  const onMove = useCallback((from: string, to: string) => attempt(from as Square, to as Square), [attempt]);
 
   const onSanSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -357,47 +331,12 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
         transition: "background-color 300ms ease-out",
       });
     }
-    if (ripple) {
-      for (let r = 1; r <= 8; r++)
-        for (const f of FILES) {
-          const sq = `${f}${r}`;
-          add(sq, { animation: `dc-ripple 700ms cubic-bezier(0.16, 1, 0.3, 1) ${chebyshev(sq, ripple) * 55}ms both` });
-        }
-    }
     return styles;
-  }, [fen, lastMove, selected, hint, flash, ripple]);
+  }, [fen, lastMove, selected, hint, flash]);
 
   const player = engineRef.current?.playerColor ?? "white";
 
-  // Handlers estáveis lendo a versão mais recente via ref: o Chessboard só re-renderiza quando o tabuleiro muda.
-  const live = useRef({ attempt, onSquareClick, phase, player });
-  live.current = { attempt, onSquareClick, phase, player };
-
-  const boardOptions = useMemo(
-    () => ({
-      id: "puzzle-board",
-      position: fen,
-      boardOrientation: orientation,
-      squareStyles,
-      arrows: hint?.to ? [{ startSquare: hint.from, endSquare: hint.to, color: "rgba(217, 142, 42, 0.85)" }] : [],
-      allowDrawingArrows: true,
-      animationDurationInMs: 240,
-      lightSquareStyle: { backgroundColor: colors.light },
-      darkSquareStyle: { backgroundColor: colors.dark },
-      lightSquareNotationStyle: { color: colors.lightInk, fontWeight: 600 },
-      darkSquareNotationStyle: { color: colors.darkInk, fontWeight: 600 },
-      allowDragging: phase === "play",
-      canDragPiece: ({ piece }: { piece: { pieceType: string } }) =>
-        live.current.phase === "play" && piece.pieceType[0] === live.current.player[0],
-      onPieceDrag: ({ square }: { square: string | null }) => {
-        if (square) setSelected(square as Square);
-      },
-      onPieceDrop: ({ sourceSquare, targetSquare }: { sourceSquare: string; targetSquare: string | null }) =>
-        targetSquare ? live.current.attempt(sourceSquare as Square, targetSquare as Square) : false,
-      onSquareClick: (args: { square: string; piece: { pieceType: string } | null }) => live.current.onSquareClick(args),
-    }),
-    [fen, orientation, squareStyles, hint, colors, phase],
-  );
+  const arrows = useMemo(() => (hint?.to ? [{ from: hint.from, to: hint.to }] : []), [hint]);
 
   const statusText = (() => {
     if (phase === "intro") return t("opponentThinking");
@@ -459,11 +398,20 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
 
       <div ref={shakeRef} className="relative">
         <div className="overflow-hidden rounded-xl shadow-card ring-1 ring-black/5" aria-label={ta("board")} role="application">
-          {Chessboard ? (
-            <Chessboard options={boardOptions} />
-          ) : (
-            <MiniBoard fen={fen} orientation={orientation} notation className="!rounded-none" />
-          )}
+          <Board
+            fen={fen}
+            orientation={orientation}
+            theme={settings.boardTheme}
+            squareStyles={squareStyles}
+            arrows={arrows}
+            ripple={ripple}
+            interactive={phase === "play"}
+            selected={selected}
+            canPick={canPick}
+            isTarget={isTarget}
+            onSelect={onSelect}
+            onMove={onMove}
+          />
         </div>
         {promo && (
           <PromotionPicker

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./pieces.css";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
@@ -126,10 +127,43 @@ body {
   80% { transform: translateX(2px); }
 }
 
+/* Onda de vitória: só opacidade, sem repintar sombra/filtro em 64 casas. */
 @keyframes dc-ripple {
-  0% { box-shadow: inset 0 0 0 0 transparent; filter: none; }
-  35% { box-shadow: inset 0 0 0 100px color-mix(in oklab, var(--good) 55%, transparent); filter: brightness(1.08); }
-  100% { box-shadow: inset 0 0 0 0 transparent; filter: none; }
+  0%, 100% { opacity: 0; }
+  35% { opacity: 0.55; }
+}
+
+.dc-ripple {
+  background: var(--good);
+  opacity: 0;
+  pointer-events: none;
+  animation: dc-ripple 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.dc-piece,
+.dc-ghost {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12.5%;
+  height: 12.5%;
+  background-size: 100% 100%;
+}
+
+.dc-piece {
+  transition: transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 120ms linear;
+}
+
+.dc-ghost {
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.3));
+}
+
+.dc-piece-static {
+  position: absolute;
+  inset: 0;
+  background-size: 100% 100%;
 }
 
 

@@ -21,7 +21,7 @@ export function StreakBadge() {
       }`}
       aria-label={`${t("streak")}: ${hydrated ? current : 0}`}
     >
-      <Flame className={`size-4 ${active ? "fill-accent text-accent [animation:dc-flame_2.4s_ease-in-out_infinite]" : ""}`} />
+      <Flame className={`size-4 ${active ? "fill-accent text-accent [animation:dc-flame_700ms_ease-in-out_2]" : ""}`} />
       {hydrated ? current : 0}
     </Link>
   );
@@ -31,7 +31,7 @@ export function TopBar() {
   const t = useTranslations("nav");
   const [open, setOpen] = useState(false);
   return (
-    <header className="sticky top-0 z-30 border-b border-line/70 bg-bg/88 backdrop-blur-md">
+    <header className="sticky top-0 z-30 border-b border-line/70 bg-bg">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-3 px-4 lg:h-16 lg:px-8">
         <Link href="/" className="lg:hidden">
           <Wordmark />

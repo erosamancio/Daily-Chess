@@ -20,7 +20,7 @@ export function Onboarding() {
   const last = step === STEPS.length - 1;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/45 backdrop-blur-[3px] sm:items-center">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/45 sm:items-center">
       <div
         role="dialog"
         aria-modal="true"

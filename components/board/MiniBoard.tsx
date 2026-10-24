@@ -1,6 +1,5 @@
 "use client";
 
-import { defaultPieces } from "react-chessboard";
 import { useStore } from "@/lib/store";
 import { BOARD_THEMES } from "./boardThemes";
 
@@ -35,7 +34,7 @@ export function MiniBoard({
       {ordered.flatMap((row, r) =>
         row.map((piece, c) => {
           const light = (r + c) % 2 === 0;
-          const Piece = piece ? defaultPieces[(piece === piece.toUpperCase() ? "w" : "b") + piece.toUpperCase()] : null;
+          const code = piece ? (piece === piece.toUpperCase() ? "w" : "b") + piece.toUpperCase() : null;
           const ink = light ? theme.lightInk : theme.darkInk;
           const rank = orientation === "white" ? 8 - r : r + 1;
           return (
@@ -50,11 +49,7 @@ export function MiniBoard({
                   {files[c]}
                 </span>
               )}
-              {Piece && (
-                <div className="absolute inset-0">
-                  <Piece />
-                </div>
-              )}
+              {code && <div className={`dc-piece-static pc-${code}`} />}
             </div>
           );
         }),

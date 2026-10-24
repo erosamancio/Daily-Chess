@@ -8,7 +8,7 @@ import type { DailyEntry } from "../../lib/types";
 const schedule: DailyEntry[] = JSON.parse(readFileSync(join(__dirname, "..", "..", "data", "daily-schedule.json"), "utf8"));
 const today = schedule[(dayNumber(todayKey()) - 1) % schedule.length].puzzle;
 
-const square = (page: Page, sq: string) => page.locator(`#puzzle-board-board [data-square="${sq}"]`);
+const square = (page: Page, sq: string) => page.locator(`.dc-board [data-square="${sq}"]`);
 
 async function clickMove(page: Page, uci: string) {
   await square(page, uci.slice(0, 2)).click();
@@ -74,7 +74,7 @@ test("rush começa com cronômetro e vidas", async ({ page }) => {
   await page.goto("/rush");
   await page.getByRole("button", { name: "Começar" }).click();
   await expect(page.getByText("Vidas", { exact: true })).toBeVisible();
-  await expect(page.locator("#puzzle-board-board")).toBeVisible();
+  await expect(page.locator(".dc-board")).toBeVisible();
 });
 
 test("clássico: Mate do Pastor", async ({ page }) => {

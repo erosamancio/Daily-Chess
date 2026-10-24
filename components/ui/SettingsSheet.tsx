@@ -79,9 +79,9 @@ export function SettingsSheet({ open, onClose }: { open: boolean; onClose: () =>
 
   if (!open) return null;
 
-  // Portal: o header sticky com backdrop-filter prenderia um elemento fixed dentro dele.
+  // Portal: fica acima de tudo, fora do header sticky.
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/35 backdrop-blur-[2px] sm:items-center" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/40 sm:items-center" onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"
