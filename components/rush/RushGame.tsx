@@ -126,7 +126,7 @@ export function RushGame() {
   const record = isOver && score > prevBest && score > 0;
 
   return (
-    <div className="grid items-center gap-10 py-2 sm:py-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:gap-16">
+    <div className="grid grid-cols-[minmax(0,1fr)] items-center gap-8 py-2 sm:gap-10 sm:py-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,26rem)] lg:gap-16">
       <ChessClock
         className="lg:order-last"
         label={isOver ? t("rush.scoreLabel") : t("rush.timeLeft")}
@@ -137,7 +137,7 @@ export function RushGame() {
       />
       <div className="flex flex-col items-start gap-7">
         <div>
-          <h1 className="font-display text-5xl font-extrabold tracking-tight sm:text-6xl">{isOver ? t("rush.over") : t("rush.title")}</h1>
+          <h1 className="font-display text-4xl font-extrabold tracking-tight sm:text-6xl">{isOver ? t("rush.over") : t("rush.title")}</h1>
           <p className="mt-3 max-w-prose text-lg leading-relaxed text-ink-2">
             {isOver ? t("rush.finalScore", { n: score }) : t("rush.subtitle")}
           </p>
@@ -201,20 +201,20 @@ function ChessClock({
 }) {
   return (
     <figure role="img" aria-label={ariaLabel} className={`mx-auto w-full max-w-md ${className}`}>
-      <div className="flex justify-between px-10" aria-hidden>
-        <span className="h-3.5 w-24 translate-y-px rounded-t-xl bg-accent" />
-        <span className="mt-1.5 h-2 w-24 translate-y-px rounded-t-xl bg-[#2a3a31]" />
+      <div className="flex justify-between px-8 sm:px-10" aria-hidden>
+        <span className="h-3.5 w-20 translate-y-px sm:w-24 rounded-t-xl bg-accent" />
+        <span className="mt-1.5 h-2 w-20 translate-y-px sm:w-24 rounded-t-xl bg-[#2a3a31]" />
       </div>
       <div className="grid grid-cols-[1.35fr_1fr] gap-2.5 rounded-[2rem] bg-[#15211b] p-3 shadow-[0_2px_4px_rgb(0_0_0/0.2),0_24px_48px_-16px_rgb(19_32_25/0.55)]">
-        <div className="flex flex-col gap-1 rounded-[1.4rem] bg-[#0a110d] px-5 py-4 ring-1 ring-white/5">
+        <div className="flex min-w-0 flex-col gap-1 rounded-[1.4rem] bg-[#0a110d] px-4 py-4 ring-1 ring-white/5 sm:px-5">
           <span className="text-[11px] font-semibold tracking-wide text-[#9fb0a5] uppercase">{label}</span>
-          <span className="font-mono text-5xl font-semibold text-[#f0b14f] tabular sm:text-6xl">{value}</span>
+          <span className="font-mono text-4xl font-semibold text-[#f0b14f] tabular sm:text-6xl">{value}</span>
         </div>
-        <div className="flex flex-col gap-1 rounded-[1.4rem] bg-[#0a110d] px-4 py-4 ring-1 ring-white/5">
+        <div className="flex min-w-0 flex-col gap-1 rounded-[1.4rem] bg-[#0a110d] px-3 py-4 ring-1 ring-white/5 sm:px-4">
           <span className="text-[11px] font-semibold tracking-wide text-[#9fb0a5] uppercase">{livesLabel}</span>
-          <span className="flex flex-1 items-center gap-1.5">
+          <span className="flex flex-1 items-center gap-1 sm:gap-1.5">
             {Array.from({ length: LIVES }, (_, i) => (
-              <Heart key={i} className={`size-7 ${i < lives ? "fill-[#ec6c5f] text-[#ec6c5f]" : "text-[#2a3a31]"}`} />
+              <Heart key={i} className={`size-6 sm:size-7 ${i < lives ? "fill-[#ec6c5f] text-[#ec6c5f]" : "text-[#2a3a31]"}`} />
             ))}
           </span>
         </div>

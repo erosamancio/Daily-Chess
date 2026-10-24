@@ -89,6 +89,8 @@
 
 html {
   background: var(--bg);
+  /* Sem o atraso de toque duplo para zoom no iOS. */
+  touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
 

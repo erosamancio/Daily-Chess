@@ -63,12 +63,12 @@ export function DailyChallenge({ entry, mode }: { entry: DailyEntry; mode: "toda
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,600px)_minmax(0,1fr)] lg:gap-10">
-      <header className="flex items-end justify-between gap-4 lg:hidden">
+      <header className="-mb-2 flex items-center justify-between gap-3 lg:hidden">
         <div>
-          <h1 className="font-display text-2xl font-extrabold tracking-tight">
+          <h1 className="font-display text-xl font-extrabold tracking-tight">
             {mode === "today" ? t("daily.title") : t("archive.pastDay", { date: dateLabel })}
           </h1>
-          <p className="text-sm text-ink-2">
+          <p className="text-xs text-ink-2">
             {t("daily.number", { n: number })} · {t(`weekday.${wd}`)}, {dateLabel}
           </p>
         </div>

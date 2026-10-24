@@ -43,6 +43,15 @@ function knock(c: AudioContext, start: number, freq: number, gain: number) {
   src.start(start);
 }
 
+// iOS só libera o áudio dentro de um toque: destrava no primeiro toque, para o lance do adversário soar também.
+if (typeof window !== "undefined") {
+  const unlock = () => {
+    const c = audio();
+    if (c && c.state !== "suspended") window.removeEventListener("pointerdown", unlock);
+  };
+  window.addEventListener("pointerdown", unlock, { passive: true });
+}
+
 export function playSound(name: SoundName) {
   const c = audio();
   if (!c) return;

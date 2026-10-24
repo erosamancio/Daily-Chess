@@ -370,14 +370,14 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
   return (
     <div className="flex w-full flex-col gap-3">
       {/* A instrução é o título do momento: quebra em até duas linhas, nunca é cortada. */}
-      <div className="flex min-h-12 items-start justify-between gap-3 px-1">
+      <div className="flex min-h-10 items-start justify-between gap-3 px-1 sm:min-h-12">
         <p
           key={feedback?.id ?? phase}
-          className={`dc-rise min-w-0 font-display text-lg leading-snug font-semibold text-balance sm:text-xl ${statusTone}`}
+          className={`dc-rise min-w-0 font-display text-base leading-snug font-semibold text-balance min-[400px]:text-lg sm:text-xl ${statusTone}`}
         >
           {statusText}
         </p>
-        <div className="flex shrink-0 flex-col items-end gap-2 pt-0.5">
+        <div className="flex shrink-0 flex-col items-end gap-1.5 pt-0.5 sm:gap-2">
           <span className="inline-flex h-7 items-center gap-2 rounded-full bg-surface px-2.5 text-xs font-semibold text-ink-2 ring-1 ring-line">
             <span
               aria-hidden
@@ -396,7 +396,7 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
         </div>
       </div>
 
-      <div ref={shakeRef} className="relative">
+      <div ref={shakeRef} className="relative mx-auto w-full max-lg:max-w-[max(17rem,calc(100svh-19rem))]">
         <div className="overflow-hidden rounded-xl shadow-card ring-1 ring-black/5" aria-label={ta("board")} role="application">
           <Board
             fen={fen}
@@ -426,14 +426,14 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
         )}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1.5 sm:gap-2">
         {allowHints && (
           <button
             type="button"
             onClick={giveHint}
             disabled={phase !== "play" || hintLevel >= 2}
             aria-label={t("hintAria", { n: 2 - hintLevel })}
-            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-accent-soft pr-2 pl-4 text-sm font-semibold text-ink transition hover:brightness-95 active:scale-[0.97] disabled:opacity-40"
+            className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-accent-soft pr-2 pl-3.5 text-sm sm:gap-2 sm:pl-4 font-semibold text-ink transition hover:brightness-95 active:scale-[0.97] disabled:opacity-40"
           >
             <Lightbulb className="size-4 text-accent" strokeWidth={2.25} />
             {t("hint")}
@@ -448,14 +448,14 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
             onClick={reveal}
             disabled={phase !== "play"}
             aria-label={t("showSolution")}
-            className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-surface-2 px-4 text-sm font-semibold text-ink transition hover:bg-line active:scale-[0.97] disabled:opacity-40"
+            className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-full bg-surface-2 px-3.5 text-sm sm:gap-2 sm:px-4 font-semibold text-ink transition hover:bg-line active:scale-[0.97] disabled:opacity-40"
           >
             <Eye className="size-4" strokeWidth={2.25} />
             <span className="sm:hidden">{t("solutionShort")}</span>
             <span className="hidden sm:inline">{t("showSolution")}</span>
           </button>
         )}
-        <div className="ml-auto flex gap-1">
+        <div className="ml-auto flex shrink-0">
           <button
             type="button"
             onClick={() => setShowKeyboard((v) => !v)}

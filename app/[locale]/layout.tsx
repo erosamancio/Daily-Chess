@@ -58,7 +58,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
             <SideNav />
             <div className="flex min-h-dvh min-w-0 flex-col">
               <TopBar />
-              <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-4 pb-28 sm:pt-6 lg:px-8 lg:pb-12">{children}</main>
+              <main className="mx-auto w-full max-w-6xl flex-1 px-[max(1rem,env(safe-area-inset-left))] pt-3 pb-28 sm:pt-6 lg:px-8 lg:pb-12">{children}</main>
               <footer className="mx-auto w-full max-w-6xl px-4 pb-28 text-xs text-ink-2 lg:px-8 lg:pb-8">
                 <p>
                   <a href="https://database.lichess.org/#puzzles" className="underline underline-offset-4 hover:text-ink" target="_blank" rel="noreferrer">
