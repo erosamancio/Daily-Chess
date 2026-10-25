@@ -89,10 +89,12 @@ export function TrainingSession({ theme }: { theme: ThemeKey }) {
     <div className="grid gap-6 lg:grid-cols-[minmax(0,600px)_minmax(0,1fr)] lg:gap-10">
       <div className="min-w-0">
         <div className="mb-3 flex items-center justify-between gap-3 lg:hidden">
-          <Link href="/treino" className="inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-ink-2 hover:text-ink" aria-label={t("train.back")}>
-            <ArrowLeft className="size-4" />
-            <span className="font-display text-xl font-extrabold tracking-tight text-ink">{t(`themes.${theme}.name`)}</span>
-          </Link>
+          <div className="flex min-w-0 items-center gap-1">
+            <Link href="/treino" className="-ml-2 grid size-11 shrink-0 place-items-center rounded-full text-ink-2 hover:text-ink" aria-label={t("train.back")}>
+              <ArrowLeft className="size-4" />
+            </Link>
+            <h1 className="truncate font-display text-xl font-extrabold tracking-tight">{t(`themes.${theme}.name`)}</h1>
+          </div>
           <span className="font-mono text-sm font-semibold text-ink-2 tabular">{hydrated ? rating : "—"}</span>
         </div>
         {current ? (
