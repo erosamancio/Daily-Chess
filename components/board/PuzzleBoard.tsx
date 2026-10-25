@@ -22,12 +22,10 @@ export type PuzzleOutcome = {
 
 type Props = {
   puzzle: { fen: string; moves: string[]; opponentFirst?: boolean };
-  /** Muda quando um novo puzzle deve começar. */
   puzzleKey: string;
   goal: string;
   allowHints?: boolean;
   allowSolution?: boolean;
-  /** Rush: o primeiro erro encerra o puzzle. */
   failOnMistake?: boolean;
   onFinish: (outcome: PuzzleOutcome) => void;
 };
@@ -69,7 +67,6 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
   const [progress, setProgress] = useState({ done: 0, total: 1 });
   const [revealTick, setRevealTick] = useState(0);
 
-  // Reinicia a animação de "tremida" sem remontar o tabuleiro.
   const shake = useCallback(() => {
     const el = shakeRef.current;
     if (!el) return;
@@ -99,8 +96,11 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
     [ta, colorName],
   );
 
-  // (Re)inicia o puzzle.
+  const startDeps = useRef({ puzzle, later, sound, announceMove });
+  startDeps.current = { puzzle, later, sound, announceMove };
+
   useEffect(() => {
+    const { puzzle, later, sound, announceMove } = startDeps.current;
     timers.current.forEach(clearTimeout);
     timers.current = [];
     const engine = new PuzzleEngine(puzzle);
@@ -139,8 +139,8 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
         begin();
       }, 650);
     }
-    return () => timers.current.forEach(clearTimeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const pending = timers.current;
+    return () => pending.forEach(clearTimeout);
   }, [puzzleKey]);
 
   const finish = useCallback(
@@ -161,7 +161,6 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
     [onFinish],
   );
 
-  /** Tenta um lance do jogador. Retorna true se a peça deve ficar onde foi solta. */
   const attempt = useCallback(
     (from: Square, to: Square, promotion?: string, viaReveal = false): boolean => {
       const engine = engineRef.current;
@@ -213,7 +212,6 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
         return true;
       }
 
-      // Lance certo: mostra o lance, depois a resposta do adversário.
       setFen(result.fenAfterMove);
       setLastMove({ from, to });
       setFeedback({ kind: "good", id: Date.now() });
@@ -232,7 +230,6 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
     [phase, failOnMistake, sound, later, finish, announceMove, shake],
   );
 
-  // Ver solução: joga os lances restantes automaticamente.
   useEffect(() => {
     if (!revealTick || phase !== "play") return;
     const engine = engineRef.current!;
@@ -292,7 +289,6 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
     setSanInput("");
   };
 
-  // Estilos de casas: último lance, seleção, destinos, dica, xeque, flashes e onda de vitória.
   const squareStyles = useMemo(() => {
     const styles: Record<string, CSSProperties> = {};
     const add = (sq: string, style: CSSProperties) => {
@@ -360,7 +356,6 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
     return () => clearTimeout(id);
   }, [flash]);
 
-  // Limpa o feedback de erro/acerto depois de um tempo.
   useEffect(() => {
     if (!feedback || feedback.kind === "solved" || feedback.kind === "revealed") return;
     const id = window.setTimeout(() => setFeedback(null), 1600);
@@ -369,7 +364,6 @@ export const PuzzleBoard = memo(function PuzzleBoard({ puzzle, puzzleKey, goal, 
 
   return (
     <div className="flex w-full flex-col gap-3">
-      {/* A instrução é o título do momento: quebra em até duas linhas, nunca é cortada. */}
       <div className="flex min-h-10 items-start justify-between gap-3 px-1 sm:min-h-12">
         <p
           key={feedback?.id ?? phase}

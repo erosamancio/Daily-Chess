@@ -14,20 +14,15 @@ type ThemeStat = { attempts: number; solved: number };
 
 type State = {
   daily: Record<string, DailyRecord>;
-  /** Dias anteriores jogados pelo Arquivo (não contam para a sequência). */
   archive: Record<string, DailyRecord>;
-  /** Níveis fácil e difícil do diário, por data. Não contam para a sequência. */
   dailyLevels: Record<string, Partial<Record<Exclude<DailyLevel, "normal">, DailyRecord>>>;
   rating: number;
   ratingGames: number;
   themeStats: Partial<Record<ThemeKey, ThemeStat>>;
-  /** Puzzles de treino já vistos (últimos 600), para evitar repetição. */
   seen: string[];
   rushBest: number;
-  /** Recorde do Rush de 5 minutos. */
   rushBest5: number;
   classicsSolved: string[];
-  /** Puzzles errados ou resolvidos com ajuda, para refazer na Revisão (até 60). */
   review: Puzzle[];
   reviewCleared: number;
   settings: { sound: boolean; boardTheme: BoardTheme; onboarded: boolean };
@@ -50,13 +45,11 @@ const BACKUP_KIND = "daily-chess-backup";
 
 type Saved = Partial<Omit<State, `record${string}` | "reset" | "updateSettings" | "addReview" | "clearReview" | "importBackup">>;
 
-/** Dados salvos, sem as funções: é o que vai para o arquivo de backup. */
 export function exportBackup(): string {
   const { state } = JSON.parse(localStorage.getItem("daily-chess") ?? "{}") as { state?: Saved };
   return JSON.stringify({ kind: BACKUP_KIND, version: 1, exportedAt: new Date().toISOString(), state: state ?? {} }, null, 2);
 }
 
-/** Valida o arquivo antes de sobrescrever o progresso: só aceita backups do próprio Daily Chess. */
 function parseBackup(data: unknown): Saved | null {
   if (!data || typeof data !== "object") return null;
   const { kind, state } = data as { kind?: unknown; state?: unknown };
@@ -162,7 +155,6 @@ export const useStore = create<State>()(
   ),
 );
 
-/** true depois que o estado salvo no navegador foi carregado (evita mismatch de hidratação). */
 export function useHydrated() {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => {

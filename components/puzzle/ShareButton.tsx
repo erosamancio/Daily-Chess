@@ -13,9 +13,7 @@ export function ShareButton({ text }: { text: string }) {
       try {
         await navigator.share({ text });
         return;
-      } catch {
-        // cancelado pelo usuário: cai para a cópia
-      }
+      } catch {}
     }
     try {
       await navigator.clipboard.writeText(text);

@@ -4,7 +4,6 @@ export function expectedScore(userRating: number, puzzleRating: number) {
   return 1 / (1 + 10 ** ((puzzleRating - userRating) / 400));
 }
 
-/** Elo simplificado com K adaptativo: muda rápido nas primeiras partidas. */
 export function updateRating(
   userRating: number,
   puzzleRating: number,

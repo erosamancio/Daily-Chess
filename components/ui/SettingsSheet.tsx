@@ -79,7 +79,6 @@ export function SettingsSheet({ open, onClose }: { open: boolean; onClose: () =>
 
   if (!open) return null;
 
-  // Portal: fica acima de tudo, fora do header sticky.
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/40 sm:items-center" onClick={onClose}>
       <div

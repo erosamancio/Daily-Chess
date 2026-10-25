@@ -2,7 +2,6 @@ import { setRequestLocale } from "next-intl/server";
 import { DailyChallenge } from "@/components/puzzle/DailyChallenge";
 import { getDailyLevels, getToday } from "@/lib/data.server";
 
-// O dia vira à meia-noite de Brasília; a página é regenerada a cada minuto.
 export const revalidate = 60;
 
 export default async function TodayPage({ params }: { params: Promise<{ locale: string }> }) {

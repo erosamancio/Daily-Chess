@@ -1,8 +1,3 @@
-/**
- * Partidas clássicas. `pgn` são os lances da partida até a posição do puzzle e
- * `solution` a sequência a ser encontrada (lances do jogador e respostas). Tudo em SAN;
- * lib/classics.ts converte para FEN/UCI com chess.js e o teste de dados valida cada linha.
- */
 export type ClassicSource = {
   slug: string;
   white: string;

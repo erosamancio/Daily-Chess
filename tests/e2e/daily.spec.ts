@@ -30,7 +30,6 @@ test("resolve o desafio do dia com erro e dica, e o streak sobe", async ({ page,
   const goal = /^mateIn(\d)$/.exec(today.theme) ? /Encontre o mate em/ : /Encontre o melhor lance/;
   await expect(page.getByText(goal)).toBeVisible({ timeout: 15_000 });
 
-  // Um lance legal errado (que não seja mate) é rejeitado.
   const pos = new Chess(today.fen);
   pos.move({ from: today.moves[0].slice(0, 2), to: today.moves[0].slice(2, 4), promotion: today.moves[0][4] });
   const wrong = pos.moves({ verbose: true }).find((m) => {
@@ -58,7 +57,6 @@ test("resolve o desafio do dia com erro e dica, e o streak sobe", async ({ page,
   expect(shared).toContain(`Daily Chess #${dayNumber(todayKey())}`);
   expect(shared).toContain("🟨");
 
-  // Depois de recarregar, o resultado continua salvo.
   await page.reload();
   await expect(page.getByRole("heading", { name: "Resolvido!" })).toBeVisible();
 });

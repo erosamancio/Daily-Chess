@@ -89,7 +89,6 @@
 
 html {
   background: var(--bg);
-  /* Sem o atraso de toque duplo para zoom no iOS. */
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
@@ -119,8 +118,6 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* ——— Microinterações do tabuleiro ——— */
-
 @keyframes dc-shake {
   0%, 100% { transform: translateX(0); }
   20% { transform: translateX(-7px); }
@@ -129,7 +126,6 @@ body {
   80% { transform: translateX(2px); }
 }
 
-/* Onda de vitória: só opacidade, sem repintar sombra/filtro em 64 casas. */
 @keyframes dc-ripple {
   0%, 100% { opacity: 0; }
   35% { opacity: 0.55; }
@@ -167,7 +163,6 @@ body {
   inset: 0;
   background-size: 100% 100%;
 }
-
 
 @keyframes dc-rise {
   from { transform: translateY(16px); opacity: 0; }

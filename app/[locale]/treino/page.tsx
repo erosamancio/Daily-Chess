@@ -11,7 +11,6 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return { title: t("title"), description: t("subtitle") };
 }
 
-/** Uma posição de exemplo por tema, já depois do lance do adversário. */
 function samplePosition(theme: (typeof THEMES)[number]) {
   const list = loadTheme(theme);
   const p = list.find((x) => x.rating >= 1150) ?? list[0];

@@ -1,7 +1,6 @@
 import { CLASSICS } from "@/data/classics.source";
 import type { DailyRecord } from "./streak";
 
-/** Conquistas calculadas a partir do progresso salvo: nada extra para guardar ou sincronizar. */
 export type AchievementInput = {
   daily: Record<string, DailyRecord>;
   archive: Record<string, DailyRecord>;

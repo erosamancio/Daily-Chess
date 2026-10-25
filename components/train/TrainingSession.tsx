@@ -45,7 +45,6 @@ export function TrainingSession({ theme }: { theme: ThemeKey }) {
     if (hydrated) void fetchBatch();
   }, [hydrated, fetchBatch]);
 
-  // Pega o próximo puzzle da fila e reabastece quando estiver acabando.
   useEffect(() => {
     if (!current && queue.length) {
       setCurrent(queue[0]);
@@ -57,7 +56,6 @@ export function TrainingSession({ theme }: { theme: ThemeKey }) {
   const onFinish = useCallback(
     (o: PuzzleOutcome) => {
       if (!current) return;
-      // Na primeira tentativa vale rating; repetições não contam.
       if (attempt > 0) {
         setOutcome({ success: o.solved && o.mistakes === 0, solved: o.solved, delta: 0 });
         return;
@@ -143,7 +141,6 @@ export function TrainingSession({ theme }: { theme: ThemeKey }) {
           )}
         </div>
 
-        {/* No celular o resultado fica preso acima da barra de baixo: "Próximo" sempre à vista, sem rolar. */}
         {outcome && (
           <section
             className="dc-rise z-20 flex flex-col gap-3 rounded-3xl bg-surface p-4 shadow-card ring-1 ring-line/60 max-lg:fixed max-lg:inset-x-3 max-lg:bottom-[calc(4.75rem+env(safe-area-inset-bottom))] sm:max-lg:mx-auto sm:max-lg:max-w-lg lg:gap-4 lg:p-5"

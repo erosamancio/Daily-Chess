@@ -4,9 +4,7 @@ import { CLASSICS, type ClassicSource } from "@/data/classics.source";
 export type Classic = Omit<ClassicSource, "pgn" | "solution"> & {
   fen: string;
   moves: string[];
-  /** Lances da partida até a posição, em SAN (para exibir). */
   history: string[];
-  /** A solução termina em xeque-mate. */
   mate: boolean;
 };
 
@@ -19,9 +17,8 @@ function toClassic(src: ClassicSource): Classic {
     const m = chess.move(san);
     return m.from + m.to + (m.promotion ?? "");
   });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { pgn: _pgn, solution: _solution, ...rest } = src;
-  return { ...rest, fen, moves, history, mate: chess.isCheckmate() };
+  const { slug, year, white, black, event, difficulty, title, story } = src;
+  return { slug, year, white, black, event, difficulty, title, story, fen, moves, history, mate: chess.isCheckmate() };
 }
 
 let cache: Classic[] | null = null;

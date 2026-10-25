@@ -1,4 +1,3 @@
-/** Marca: um canto de tabuleiro 2×2 com a casa do "dia" destacada. */
 export function LogoMark({ className = "size-8" }: { className?: string }) {
   return (
     <svg viewBox="0 0 32 32" className={className} aria-hidden>

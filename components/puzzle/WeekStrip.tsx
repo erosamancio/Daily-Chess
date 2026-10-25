@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { addDays, weekday } from "@/lib/daily";
 import { useHydrated, useStore } from "@/lib/store";
 
-/** A semana de segunda a domingo; a altura das barras mostra a dificuldade crescente. */
 export function WeekStrip({ today }: { today: string }) {
   const t = useTranslations();
   const hydrated = useHydrated();

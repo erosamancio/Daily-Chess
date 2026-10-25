@@ -24,7 +24,6 @@ export function loadTheme(theme: ThemeKey): Puzzle[] {
   return list;
 }
 
-/** Puzzle de uma data. Datas além do calendário reciclam em ciclo. Nunca retorna datas futuras. */
 export function getDaily(date: string): DailyEntry | null {
   const today = todayKey();
   if (date > today) return null;
@@ -35,7 +34,6 @@ export function getDaily(date: string): DailyEntry | null {
   return { ...entry, date, number: n };
 }
 
-/** Níveis fácil e difícil de uma data (mesmo ciclo do calendário principal). */
 export function getDailyLevels(date: string): { easy: Puzzle; hard: Puzzle } | null {
   if (date > todayKey()) return null;
   const n = dayNumber(date);
@@ -60,7 +58,6 @@ export function getTraining(theme: ThemeKey, rating: number, exclude: Set<string
   return sample(pool.length ? pool : list, count);
 }
 
-/** Rush: puzzles curtos de todos os temas, em ordem crescente de dificuldade. */
 export function getRush(count: number): Puzzle[] {
   const themes: ThemeKey[] = [
     "mateIn1",

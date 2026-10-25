@@ -21,7 +21,6 @@ describe("clássicos", () => {
       const end = playLine(c.fen, c.moves);
       expect(c.moves.length % 2).toBe(1);
       expect(end.isCheckmate()).toBe(c.mate);
-      // A notação de origem marca mate com "#"; ela precisa bater com o tabuleiro.
       const src = CLASSICS.find((x) => x.slug === c.slug)!;
       expect(src.solution.endsWith("#")).toBe(c.mate);
     });

@@ -206,7 +206,6 @@ export function RushGame() {
   );
 }
 
-/** Relógio de xadrez: o objeto real do modo Rush. Mantém o corpo escuro nos dois temas. */
 function ChessClock({
   label,
   value,

@@ -1,10 +1,3 @@
-/**
- * Gera data/puzzles/<tema>.json e data/daily-schedule.json a partir da base aberta
- * de puzzles do Lichess (CC0): https://database.lichess.org/#puzzles
- *
- * Uso: npm run build:puzzles -- <caminho/lichess_db_puzzle.csv.zst>
- * Requer o binário `zstd` no PATH.
- */
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -23,13 +16,11 @@ if (!SOURCE) {
 const OUT_DIR = join(import.meta.dirname, "..", "data");
 const SCHEDULE_DAYS = 730;
 
-// Treino: por tema, faixas de 100 pontos de 600 a 2600, até PER_BAND puzzles por faixa.
 const BAND_MIN = 600;
 const BAND_MAX = 2600;
 const BAND_SIZE = 100;
 const PER_BAND = 25;
 
-// Ordem de prioridade: o primeiro tema que bater vira o tema principal do puzzle.
 const PRIORITY: ThemeKey[] = [
   "mateIn1",
   "mateIn2",
@@ -44,7 +35,6 @@ const PRIORITY: ThemeKey[] = [
   "advantage",
 ];
 
-// Rotação de temas do puzzle diário ao longo dos dias.
 const DAILY_ROTATION: ThemeKey[] = [
   "mateIn2",
   "fork",
@@ -83,7 +73,6 @@ function isValid(fen: string, moves: string[]): boolean {
 const training = new Map<ThemeKey, Map<number, Puzzle[]>>();
 for (const t of THEMES) training.set(t, new Map());
 
-// Diário: candidatos por (faixa do dia da semana, tema), com critérios mais rígidos.
 const dailyBands = Object.entries(WEEKDAY_RATING).map(([wd, range]) => ({ wd: Number(wd), range }));
 const dailyPool = new Map<number, Map<ThemeKey, Puzzle[]>>();
 for (const { wd } of dailyBands) dailyPool.set(wd, new Map(THEMES.map((t) => [t, []])));
@@ -96,7 +85,7 @@ const zstd = spawn("zstd", ["-dc", SOURCE]);
 const rl = createInterface({ input: zstd.stdout, crlfDelay: Infinity });
 
 for await (const line of rl) {
-  if (lines++ === 0) continue; // cabeçalho
+  if (lines++ === 0) continue;
   const [id, fen, movesStr, ratingStr, rdStr, popStr, playsStr, themesStr, gameUrl] = line.split(",");
   const rating = Number(ratingStr);
   const rd = Number(rdStr);
@@ -119,8 +108,6 @@ for await (const line of rl) {
     gameUrl,
   };
 
-  // Candidato ao diário: mais popular, mais jogado e no máximo 4 lances do jogador.
-  // As faixas se sobrepõem; o puzzle vai para a primeira faixa compatível que ainda tem vaga.
   if (popularity >= 92 && plays >= 2000 && moves.length <= 8) {
     const cell = dailyBands
       .filter(({ range }) => rating >= range[0] && rating < range[1])
@@ -128,7 +115,7 @@ for await (const line of rl) {
       .find((c) => c.length < DAILY_PER_CELL);
     if (cell && isValid(fen, moves)) {
       cell.push(puzzle);
-      continue; // puzzles do diário ficam fora do treino para não haver spoiler
+      continue;
     }
   }
 
@@ -152,8 +139,6 @@ for (const [theme, bands] of training) {
   console.log(`${theme}: ${list.length} puzzles`);
 }
 
-// Monta o calendário: cada dia usa a faixa do seu dia da semana e o próximo tema da rotação
-// que ainda tem puzzle disponível naquela faixa. Nenhum puzzle se repete.
 const schedule: DailyEntry[] = [];
 let rotation = 0;
 for (let i = 0; i < SCHEDULE_DAYS; i++) {

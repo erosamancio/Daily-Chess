@@ -8,10 +8,6 @@ export type DailyRecord = {
   marks: ("clean" | "struggle" | "revealed")[];
 };
 
-/**
- * Streak = dias consecutivos resolvidos terminando hoje (ou ontem, se hoje ainda
- * não foi jogado — o streak só quebra quando um dia inteiro passa).
- */
 export function computeStreak(records: Record<string, DailyRecord>, today: string) {
   const solved = (d: string) => records[d]?.status === "solved";
   let cursor = solved(today) ? today : addDays(today, -1);

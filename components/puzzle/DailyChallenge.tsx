@@ -25,7 +25,6 @@ export function DailyChallenge({
   mode,
 }: {
   entry: DailyEntry;
-  /** Níveis fácil e difícil do dia; ausentes se os dados ainda não foram gerados. */
   levels: { easy: Puzzle; hard: Puzzle } | null;
   mode: "today" | "archive";
 }) {
@@ -69,7 +68,6 @@ export function DailyChallenge({
     [date, mode, level, puzzle, recordDaily, recordArchive, recordDailyLevel, addReview],
   );
 
-  // No celular, traz o resultado para a tela depois de resolver.
   useEffect(() => {
     if (record && window.matchMedia("(max-width: 1023px)").matches) {
       const id = setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 900);

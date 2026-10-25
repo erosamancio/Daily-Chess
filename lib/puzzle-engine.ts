@@ -3,7 +3,6 @@ import { Chess, type Square } from "chess.js";
 export type PuzzleInput = {
   fen: string;
   moves: string[];
-  /** true quando moves[0] é um lance do adversário a ser animado (formato Lichess). */
   opponentFirst?: boolean;
 };
 
@@ -23,11 +22,6 @@ export function parseUci(uci: string) {
   };
 }
 
-/**
- * Motor de um puzzle: lógica pura, sem React.
- * Lances em UCI (e2e4, e7e8q). O usuário joga os lances em posições de "vez do jogador";
- * o motor responde automaticamente com o lance seguinte da solução.
- */
 export class PuzzleEngine {
   private chess: Chess;
   private readonly moves: string[];
@@ -45,7 +39,6 @@ export class PuzzleEngine {
     this.chess = new Chess(input.fen);
   }
 
-  /** Aplica o lance inicial do adversário (se houver). Retorna o lance aplicado. */
   start(): string | null {
     if (!this.opponentFirst || this.ply > 0) return null;
     const uci = this.moves[0];
@@ -62,7 +55,6 @@ export class PuzzleEngine {
     return this.startFen;
   }
 
-  /** SAN de um lance UCI na posição atual (para anúncios de acessibilidade). */
   toSan(uci: string, fen = this.chess.fen()): string {
     try {
       return new Chess(fen).move(parseUci(uci)).san;
@@ -71,7 +63,6 @@ export class PuzzleEngine {
     }
   }
 
-  /** Converte SAN digitado (ex.: "Nf3") em casas de origem/destino, se legal. */
   parseSan(san: string): { from: Square; to: Square; promotion?: string } | null {
     try {
       const m = new Chess(this.chess.fen()).move(san.trim());
@@ -81,7 +72,6 @@ export class PuzzleEngine {
     }
   }
 
-  /** Cor de quem resolve o puzzle. */
   get playerColor(): "white" | "black" {
     const first = new Chess(this.startFen).turn();
     const player = this.opponentFirst ? (first === "w" ? "b" : "w") : first;
@@ -104,7 +94,6 @@ export class PuzzleEngine {
     return this.moves[this.ply];
   }
 
-  /** Lista de destinos legais a partir de uma casa (para destacar no tabuleiro). */
   legalTargets(from: Square): Square[] {
     return this.chess.moves({ square: from, verbose: true }).map((m) => m.to);
   }
@@ -131,7 +120,6 @@ export class PuzzleEngine {
     const uci = move.from + move.to + (move.promotion ?? "");
     const expected = this.expected!;
 
-    // Qualquer mate é aceito, mesmo que diferente da solução (mesma regra do Lichess).
     const isAltMate = uci !== expected && probe.isCheckmate();
     if (uci !== expected && !isAltMate) {
       this.mistakes++;
@@ -157,7 +145,6 @@ export class PuzzleEngine {
     return level === 1 ? { from } : { from, to };
   }
 
-  /** Joga o próximo lance correto (e a resposta). Usado em "ver solução". */
   playNext(): MoveResult | null {
     if (!this.isPlayerTurn || !this.expected) return null;
     const { from, to, promotion } = parseUci(this.expected);
@@ -171,7 +158,6 @@ export class PuzzleEngine {
   }
 }
 
-/** Reproduz uma linha inteira; lança erro se algum lance for ilegal. */
 export function validateLine(fen: string, moves: string[]): boolean {
   const chess = new Chess(fen);
   for (const uci of moves) {

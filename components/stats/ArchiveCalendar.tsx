@@ -16,7 +16,6 @@ export function ArchiveCalendar({ days, today }: { days: string[]; today: string
   const daily = useStore((s) => s.daily);
   const archive = useStore((s) => s.archive);
 
-  // Agrupa por mês, do mais recente para o mais antigo.
   const months = new Map<string, string[]>();
   for (const d of days) {
     const key = d.slice(0, 7);

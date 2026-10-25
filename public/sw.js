@@ -1,4 +1,3 @@
-// Service worker do Daily Chess: app offline depois da primeira visita.
 const VERSION = "dc-v2";
 const STATIC = `${VERSION}-static`;
 const PAGES = `${VERSION}-pages`;
@@ -20,7 +19,6 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Arquivos com hash do Next e ícones: cache primeiro.
   if (url.pathname.startsWith("/_next/static/") || /\.(png|svg|woff2?)$/.test(url.pathname)) {
     event.respondWith(
       caches.match(request).then(
@@ -36,7 +34,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Páginas e API: rede primeiro (o puzzle do dia muda), cache como reserva offline.
   if (request.mode === "navigate" || url.pathname.startsWith("/api/")) {
     event.respondWith(
       fetch(request)

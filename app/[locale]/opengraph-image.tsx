@@ -12,7 +12,6 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
   const today = todayKey();
   const wd = weekday(today);
 
-  // Faixa de tabuleiro decorativa à direita.
   const squares = Array.from({ length: 64 }, (_, i) => ((Math.floor(i / 8) + i) % 2 === 0 ? "#e9ecd6" : "#6f9a5f"));
 
   return new ImageResponse(

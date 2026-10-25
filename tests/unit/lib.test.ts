@@ -6,7 +6,6 @@ import { computeStreak, type DailyRecord } from "@/lib/streak";
 
 describe("daily", () => {
   it("vira o dia à meia-noite de Brasília, não em UTC", () => {
-    // 02:30 UTC de 21/10 = 23:30 de 20/10 em São Paulo (UTC-3)
     expect(todayKey(new Date("2026-10-21T02:30:00Z"))).toBe("2026-10-20");
     expect(todayKey(new Date("2026-10-21T03:00:00Z"))).toBe("2026-10-21");
   });
@@ -16,7 +15,7 @@ describe("daily", () => {
     expect(dayNumber("2026-10-20")).toBe(20);
     expect(dateFromNumber(20)).toBe("2026-10-20");
     expect(addDays("2026-12-31", 1)).toBe("2027-01-01");
-    expect(weekday("2026-10-20")).toBe(2); // terça
+    expect(weekday("2026-10-20")).toBe(2);
   });
 
   it("valida chaves de data", () => {

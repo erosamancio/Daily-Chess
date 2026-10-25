@@ -23,7 +23,6 @@ export function ResultCard({
   record: DailyRecord;
   number: number;
   theme: ThemeKey;
-  /** Rótulo do nível (fácil/difícil); ausente no normal. */
   level?: string;
   streak: number;
   gameUrl?: string;

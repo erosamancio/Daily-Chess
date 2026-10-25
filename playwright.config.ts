@@ -16,7 +16,6 @@ export default defineConfig({
   },
   projects: [
     { name: "mobile", use: { ...devices["Pixel 7"] } },
-    // Tela pequena do iPhone (SE). Roda no Chromium; para o Safari de verdade, use browserName: "webkit".
     { name: "iphone", use: { ...devices["iPhone SE"], browserName: "chromium" } },
     { name: "desktop", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } },
   ],

@@ -1,4 +1,3 @@
-/** Resultado de cada lance do jogador: limpo, com erro/dica, ou revelado. */
 export type MoveMark = "clean" | "struggle" | "revealed";
 
 const EMOJI: Record<MoveMark, string> = {
@@ -21,7 +20,6 @@ export function buildShareText(opts: {
   streak: number;
   solved: boolean;
   url: string;
-  /** Nome do nível (fácil/difícil); o normal não leva rótulo. */
   level?: string;
 }): string {
   const status = opts.solved ? "✅" : "❌";

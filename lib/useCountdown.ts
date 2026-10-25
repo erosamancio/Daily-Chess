@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { DAILY_TIMEZONE } from "./daily";
 
-/** Segundos até a próxima meia-noite em Brasília. */
 function secondsToMidnight(now = new Date()) {
   const parts = new Intl.DateTimeFormat("en-GB", {
     timeZone: DAILY_TIMEZONE,

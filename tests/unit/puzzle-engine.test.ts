@@ -1,15 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { PuzzleEngine } from "@/lib/puzzle-engine";
 
-// Brancas jogam Rd8. O primeiro lance (h7h6) é do adversário.
 const backRank = {
   fen: "6k1/5ppp/8/8/8/8/5PPP/3R2K1 b - - 0 1",
   moves: ["h7h6", "d1d8"],
 };
 
-// Linha com 2 lances do jogador e resposta automática do adversário.
 const twoMover = {
-  // Brancas: Kg1, Qd1, Rf1; Pretas: Kg8, peões f7 g7 h7, Ra8
   fen: "r5k1/5ppp/8/8/8/8/5PPP/3Q1RK1 b - - 0 1",
   moves: ["a8a1", "d1a1", "h7h6", "a1a8"],
 };
@@ -48,7 +45,6 @@ describe("PuzzleEngine", () => {
   });
 
   it("aceita mate alternativo", () => {
-    // Duas torres podem dar mate: Rd8# (solução) ou Re8#.
     const e = new PuzzleEngine({
       fen: "6k1/p4ppp/8/8/8/8/5PPP/3RR1K1 b - - 0 1",
       moves: ["a7a6", "d1d8"],

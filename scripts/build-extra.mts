@@ -1,11 +1,3 @@
-/**
- * Versão 2: gera os temas novos de treino e os níveis fácil e difícil do desafio diário,
- * sem mexer nos arquivos que já existem (o calendário original continua igual, então
- * os dias já jogados não mudam).
- *
- * Uso: npm run build:extra -- <caminho/lichess_db_puzzle.csv.zst>
- * Requer o binário `zstd` no PATH.
- */
 import { spawn } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
@@ -44,14 +36,12 @@ const BAND_MAX = 2600;
 const BAND_SIZE = 100;
 const PER_BAND = 25;
 
-// Níveis do diário: fácil é curto e acessível; difícil é para quem já joga bem.
 const LEVELS = {
   easy: { min: 700, max: 1100, maxMoves: 6, popularity: 92, plays: 2000 },
   hard: { min: 2100, max: 2600, maxMoves: 10, popularity: 90, plays: 1000 },
 } as const;
 const LEVEL_PER_THEME = 160;
 
-// O primeiro tema que bater vira o tema principal (define o objetivo mostrado: "mate em N" ou "melhor lance").
 const PRIORITY: ThemeKey[] = ["mateIn1", "mateIn2", "mateIn3", "smotheredMate", "backRankMate", ...NEW_THEMES, ...ORIGINAL.slice(3)];
 
 function primaryTheme(tags: string[], moveCount: number): ThemeKey | null {
@@ -73,7 +63,6 @@ function isValid(fen: string, moves: string[]): boolean {
   }
 }
 
-// Nada do que já existe pode reaparecer: nem o calendário original, nem o treino.
 const used = new Set<string>();
 const schedule: DailyEntry[] = JSON.parse(readFileSync(join(DATA, "daily-schedule.json"), "utf8"));
 schedule.forEach((d) => used.add(d.puzzle.id));
@@ -106,7 +95,6 @@ for await (const line of rl) {
   const tags = themesStr.split(" ");
   const known = tags.filter((t) => (THEMES as readonly string[]).includes(t));
 
-  // Níveis do diário.
   const level = (Object.keys(LEVELS) as (keyof typeof LEVELS)[]).find((k) => {
     const c = LEVELS[k];
     return rating >= c.min && rating < c.max && moves.length <= c.maxMoves && popularity >= c.popularity && plays >= c.plays;
@@ -125,7 +113,6 @@ for await (const line of rl) {
     }
   }
 
-  // Temas novos de treino.
   if (rating < BAND_MIN || rating >= BAND_MAX) continue;
   const band = Math.floor(rating / BAND_SIZE) * BAND_SIZE;
   const theme = NEW_THEMES.find((t) => tags.includes(t) && (training.get(t)!.get(band)?.length ?? 0) < PER_BAND);
@@ -141,7 +128,6 @@ for (const [theme, bands] of training) {
   console.log(`${theme}: ${list.length} puzzles`);
 }
 
-/** Alterna os temas para os dias não ficarem repetitivos. */
 function rotate(pool: Map<ThemeKey, Puzzle[]>): Puzzle[] {
   const queues = [...pool.values()].map((l) => [...l].sort(() => Math.random() - 0.5));
   const out: Puzzle[] = [];

@@ -3,7 +3,6 @@
 import { useStore } from "@/lib/store";
 import { BOARD_THEMES } from "./boardThemes";
 
-/** Tabuleiro estático e leve para miniaturas (lista de temas, clássicos, arquivo). */
 export function MiniBoard({
   fen,
   orientation = "white",
@@ -12,7 +11,6 @@ export function MiniBoard({
 }: {
   fen: string;
   orientation?: "white" | "black";
-  /** Coordenadas nas mesmas posições do tabuleiro interativo (usado como placeholder). */
   notation?: boolean;
   className?: string;
 }) {

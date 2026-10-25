@@ -15,7 +15,6 @@ function Heatmap() {
   const daily = useStore((s) => s.daily);
   const archive = useStore((s) => s.archive);
   const today = todayKey();
-  // Colunas = semanas (segunda a domingo), terminando na semana atual.
   const thisMonday = addDays(today, -((weekday(today) + 6) % 7));
   const start = addDays(thisMonday, -(WEEKS - 1) * 7);
 

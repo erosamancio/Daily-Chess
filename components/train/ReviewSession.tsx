@@ -9,14 +9,12 @@ import { Link } from "@/i18n/navigation";
 import { useHydrated, useStore } from "@/lib/store";
 import type { Puzzle } from "@/lib/types";
 
-/** Refaz os puzzles que deram errado. Resolver sem erro e sem dica tira o puzzle da lista. */
 export function ReviewSession() {
   const t = useTranslations();
   const hydrated = useHydrated();
   const review = useStore((s) => s.review);
   const clearReview = useStore((s) => s.clearReview);
   const cleared = useStore((s) => s.reviewCleared);
-  // A fila é uma cópia: tirar um puzzle da lista salva não troca o tabuleiro no meio do lance.
   const [queue, setQueue] = useState<Puzzle[] | null>(null);
   const [attempt, setAttempt] = useState(0);
   const [outcome, setOutcome] = useState<"clean" | "again" | null>(null);
@@ -88,7 +86,6 @@ export function ReviewSession() {
           </span>
           <span className="inline-flex h-9 items-center rounded-full bg-surface-2 px-4 text-ink-2">{t(`themes.${current.theme}.name`)}</span>
         </div>
-        {/* No celular o resultado fica preso acima da barra de baixo: "Próximo" sempre à vista, sem rolar. */}
         {outcome && (
           <section
             className="dc-rise z-20 flex flex-col gap-3 rounded-3xl bg-surface p-4 shadow-card ring-1 ring-line/60 max-lg:fixed max-lg:inset-x-3 max-lg:bottom-[calc(4.75rem+env(safe-area-inset-bottom))] sm:max-lg:mx-auto sm:max-lg:max-w-lg lg:gap-4 lg:p-5"

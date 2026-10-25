@@ -24,7 +24,6 @@ type Props = {
   };
 };
 
-/** Lances da partida em pares numerados (1. e4 e5 2. Nf3 …). */
 function MoveList({ history }: { history: string[] }) {
   const pairs: string[][] = [];
   for (let i = 0; i < history.length; i += 2) pairs.push(history.slice(i, i + 2));

@@ -1,46 +1,35 @@
 # Daily Chess
 
-Um desafio de xadrez por dia, o mesmo para todo mundo, com resultado compartilhável no estilo Wordle. Também tem treino por tema, modo Rush e partidas clássicas. Next.js 15, mobile-first, PT-BR e EN.
+Um desafio de xadrez por dia, o mesmo para todo mundo, com resultado para compartilhar.
 
-## Rodando
+**Acesse:** [daily-chess-taupe.vercel.app](https://daily-chess-taupe.vercel.app)
 
-```bash
-npm install
-npm run dev            # http://localhost:3000
-npm test               # unitários + integridade dos dados (Vitest)
-npm run test:e2e       # Playwright (celular e desktop); instale antes: npx playwright install chromium
-npm run build && npm start
-```
+## Funcionalidades
 
-## Como funciona
+- **Desafio do dia** em três níveis: fácil, normal e difícil. O normal fica mais difícil ao longo da semana, de segunda a domingo.
+- **Sequência de dias** resolvidos, com calendário do histórico.
+- **Compartilhamento** do resultado em quadradinhos coloridos, sem revelar a solução.
+- **Treino por tema** com 19 padrões táticos, como garfo, cravada, mate do corredor e zugzwang. Os puzzles se ajustam ao nível do jogador.
+- **Rush** de 3 ou 5 minutos, com três vidas e dificuldade crescente.
+- **Clássicos**: posições de partidas históricas para encontrar os lances dos grandes mestres.
+- **Revisão**: os puzzles errados voltam até serem resolvidos sem erro.
+- **Arquivo** com todos os desafios anteriores.
+- **Perfil** com nível, recordes, desempenho por tema e conquistas.
+- **Dicas** em dois níveis e opção de ver a solução.
+- **Backup** do progresso em arquivo, para levar a outro aparelho.
+- Sem cadastro: o progresso fica salvo no navegador.
+- Português e inglês, tema claro e escuro, quatro estilos de tabuleiro e sons.
+- Instalável no celular e funciona offline.
 
-- **Puzzle do dia** (`/`): três níveis. O **Normal** vem de `data/daily-schedule.json` e é o único que conta para a sequência; **Fácil** e **Difícil** vêm de `data/daily-levels.json`. O dia vira à meia-noite de Brasília (`lib/daily.ts`). O cliente só recebe o puzzle de hoje. A dificuldade sobe ao longo da semana: segunda 800–1100, domingo 2000–2400.
-- **Treino** (`/treino/[tema]`): 19 temas, com puzzles perto do nível do jogador, servidos por `app/api/puzzles`.
-- **Rush** (`/rush`): 3 ou 5 minutos, 3 vidas, dificuldade crescente.
-- **Revisão** (`/revisao`): os puzzles errados ou resolvidos com ajuda voltam até sair limpos.
-- **Clássicos** (`/classicos`): partidas históricas em `data/classics.source.ts`, escritas em SAN e convertidas e validadas com chess.js.
-- **Arquivo** e **Perfil**: o progresso fica no `localStorage` (Zustand persist em `lib/store.ts`). O perfil mostra conquistas (`lib/achievements.ts`) e permite baixar e restaurar um backup em JSON.
-- **Tabuleiro**: próprio e leve (`components/board/Board.tsx`). Peças em CSS (`app/pieces.css`), animação só com `transform`, arrastar com pointer events.
-- **Motor**: `lib/puzzle-engine.ts` é lógica pura e testada. Aceita mate alternativo, trata promoção, dicas em 2 níveis e "ver solução".
+## Tecnologias
 
-## Dados
-
-Os puzzles vêm da [base aberta do Lichess](https://database.lichess.org/#puzzles) (CC0). Para regenerar:
-
-```bash
-curl -LO https://database.lichess.org/lichess_db_puzzle.csv.zst   # ~300 MB, requer zstd
-npm run build:puzzles -- lichess_db_puzzle.csv.zst
-```
-
-Os temas da versão 2 e os níveis fácil e difícil saem de outro script, que não mexe nos arquivos existentes (os dias já jogados continuam iguais):
-
-```bash
-npm run build:extra -- lichess_db_puzzle.csv.zst
-```
-
-O script principal filtra por qualidade (popularidade, número de partidas, desvio de rating) e valida cada linha com chess.js. Ele separa os puzzles do diário dos de treino, para que um não estrague o outro, e gera 730 dias de calendário.
-
-## Próximas fases
-
-- Fase 2: contas com Supabase, ranking diário e streak sincronizado.
-- Fase 3: análise com Stockfish WASM e trilhas de aprendizado.
+- [Next.js 15](https://nextjs.org) (App Router) e [React 19](https://react.dev)
+- [TypeScript](https://www.typescriptlang.org)
+- [Tailwind CSS 4](https://tailwindcss.com)
+- [chess.js](https://github.com/jhlywa/chess.js) para as regras do xadrez
+- [Zustand](https://zustand.docs.pmnd.rs) para o estado e a persistência local
+- [next-intl](https://next-intl.dev) para os idiomas
+- [Lucide](https://lucide.dev) para os ícones
+- Web Audio API para os sons e Service Worker para o modo offline
+- [Vitest](https://vitest.dev) e [Playwright](https://playwright.dev) para os testes
+- [Vercel](https://vercel.com) para a hospedagem

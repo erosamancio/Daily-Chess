@@ -1,12 +1,9 @@
 export const DAILY_TIMEZONE = "America/Sao_Paulo";
-/** Dia nº 1 do Daily Chess. */
 export const LAUNCH_DATE = "2026-10-01";
 
 const DAY_MS = 86_400_000;
 
-/** Data (YYYY-MM-DD) no fuso de Brasília. */
 export function todayKey(now: Date = new Date()): string {
-  // en-CA formata como YYYY-MM-DD
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: DAILY_TIMEZONE,
     year: "numeric",
@@ -32,7 +29,6 @@ export function addDays(dateKey: string, delta: number): string {
   return new Date(toUtcMs(dateKey) + delta * DAY_MS).toISOString().slice(0, 10);
 }
 
-/** 0 = domingo … 6 = sábado */
 export function weekday(dateKey: string): number {
   return new Date(toUtcMs(dateKey)).getUTCDay();
 }
@@ -41,7 +37,6 @@ export function isValidDateKey(value: string): boolean {
   return /^\d{4}-\d{2}-\d{2}$/.test(value) && dateFromNumber(dayNumber(value)) === value;
 }
 
-/** Faixas de rating por dia da semana: segunda fácil → domingo difícil. */
 export const WEEKDAY_RATING: Record<number, [number, number]> = {
   1: [800, 1100],
   2: [1000, 1300],

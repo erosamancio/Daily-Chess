@@ -1,6 +1,5 @@
 "use client";
 
-/** Sons sintetizados com Web Audio: sem arquivos para baixar e funcionam offline. */
 type SoundName = "move" | "capture" | "good" | "bad" | "solved";
 
 let ctx: AudioContext | null = null;
@@ -25,7 +24,6 @@ function tone(c: AudioContext, freq: number, start: number, dur: number, type: O
   osc.stop(start + dur + 0.02);
 }
 
-/** "Toc" de madeira: ruído curto filtrado. */
 function knock(c: AudioContext, start: number, freq: number, gain: number) {
   const len = Math.floor(c.sampleRate * 0.06);
   const buf = c.createBuffer(1, len, c.sampleRate);
@@ -43,7 +41,6 @@ function knock(c: AudioContext, start: number, freq: number, gain: number) {
   src.start(start);
 }
 
-// iOS só libera o áudio dentro de um toque: destrava no primeiro toque, para o lance do adversário soar também.
 if (typeof window !== "undefined") {
   const unlock = () => {
     const c = audio();

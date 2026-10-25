@@ -10,7 +10,6 @@ export const THEMES = [
   "deflection",
   "endgame",
   "advantage",
-  // Versão 2
   "backRankMate",
   "smotheredMate",
   "hangingPiece",
@@ -27,10 +26,6 @@ export function isTheme(value: string): value is ThemeKey {
   return (THEMES as readonly string[]).includes(value);
 }
 
-/**
- * Formato Lichess: `fen` é a posição ANTES do lance do adversário.
- * `moves[0]` é o lance do adversário; o usuário joga os índices ímpares.
- */
 export type Puzzle = {
   id: string;
   fen: string;
@@ -43,7 +38,6 @@ export type Puzzle = {
 
 export type Classic = {
   slug: string;
-  /** Posição com o jogador que resolve já na vez (sem lance do adversário inicial). */
   fen: string;
   moves: string[];
   year: number;
@@ -56,7 +50,6 @@ export type Classic = {
 
 export type DailyEntry = { date: string; number: number; puzzle: Puzzle };
 
-/** Níveis do diário. O "normal" é o calendário original (`DailyEntry`), que conta a sequência. */
 export const DAILY_LEVELS = ["easy", "normal", "hard"] as const;
 export type DailyLevel = (typeof DAILY_LEVELS)[number];
 export type DailyLevelsEntry = { date: string; easy: Puzzle; hard: Puzzle };

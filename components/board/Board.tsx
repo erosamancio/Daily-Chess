@@ -3,11 +3,6 @@
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 import { BOARD_THEMES } from "./boardThemes";
 
-/**
- * Tabuleiro próprio e leve: 64 casas, peças em CSS (data URI) e animação só com `transform`.
- * Substitui o react-chessboard, que carregava dnd-kit e re-renderizava o tabuleiro inteiro a cada arraste.
- */
-
 const FILES = "abcdefgh";
 const DRAG_THRESHOLD = 5;
 
@@ -19,17 +14,14 @@ type Props = {
   fen: string;
   orientation: Orientation;
   theme: keyof typeof BOARD_THEMES;
-  /** Estilos extras por casa (último lance, seleção, dica, xeque...), aplicados numa camada por cima da cor da casa. */
   squareStyles?: Record<string, CSSProperties>;
   arrows?: Arrow[];
-  /** Onda de vitória a partir desta casa; `id` reinicia a animação. */
   ripple?: { from: string; id: number } | null;
   interactive?: boolean;
   selected?: string | null;
   canPick?: (square: string) => boolean;
   isTarget?: (square: string) => boolean;
   onSelect?: (square: string | null) => void;
-  /** Retorna true se a peça deve ficar na casa de destino. */
   onMove?: (from: string, to: string) => boolean;
 };
 
@@ -56,7 +48,6 @@ function distance(a: string, b: string) {
 }
 
 let nextId = 1;
-/** Mantém a identidade das peças entre posições, para que um lance anime a peça certa. */
 function reconcile(prev: Placed[], fen: string): Placed[] {
   const next = parsePlacement(fen);
   const out: Placed[] = [];
@@ -113,9 +104,7 @@ export const Board = memo(function Board({
   const [instant, setInstant] = useState<number | null>(null);
   const [drawn, setDrawn] = useState<{ arrows: Arrow[]; circles: string[] }>({ arrows: [], circles: [] });
 
-  // Desenhos do usuário somem quando a posição muda.
   useEffect(() => setDrawn({ arrows: [], circles: [] }), [fen]);
-  // A peça solta no lugar não deve "voar" de novo da origem.
   useLayoutEffect(() => {
     if (instant === null) return;
     const id = requestAnimationFrame(() => setInstant(null));

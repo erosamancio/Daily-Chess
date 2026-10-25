@@ -15,7 +15,6 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-/** Endereço público do site: o definido à mão, senão o domínio de produção que a Vercel informa no build. */
 function siteUrl() {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
   if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
@@ -45,7 +44,6 @@ export const viewport: Viewport = {
   ],
 };
 
-// Aplica o tema salvo antes da primeira pintura, sem piscar.
 const themeScript = `try{var t=localStorage.getItem("dc-theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
 
 export default async function LocaleLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
