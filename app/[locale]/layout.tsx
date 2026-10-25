@@ -15,6 +15,13 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+/** Endereço público do site: o definido à mão, senão o domínio de produção que a Vercel informa no build. */
+function siteUrl() {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  return "http://localhost:3000";
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta" });
@@ -23,7 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     description: t("description"),
     applicationName: "Daily Chess",
     appleWebApp: { capable: true, title: "Daily Chess", statusBarStyle: "default" },
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+    metadataBase: new URL(siteUrl()),
     alternates: { languages: { pt: "/", en: "/en" } },
   };
 }
