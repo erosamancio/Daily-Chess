@@ -141,14 +141,18 @@ export function TrainingSession({ theme }: { theme: ThemeKey }) {
           )}
         </div>
 
+        {/* No celular o resultado fica preso acima da barra de baixo: "Próximo" sempre à vista, sem rolar. */}
         {outcome && (
-          <section className="dc-rise flex flex-col gap-4 rounded-3xl bg-surface p-5 shadow-card ring-1 ring-line/60" aria-live="polite">
+          <section
+            className="dc-rise z-20 flex flex-col gap-3 rounded-3xl bg-surface p-4 shadow-card ring-1 ring-line/60 max-lg:fixed max-lg:inset-x-3 max-lg:bottom-[calc(4.75rem+env(safe-area-inset-bottom))] sm:max-lg:mx-auto sm:max-lg:max-w-lg lg:gap-4 lg:p-5"
+            aria-live="polite"
+          >
             <div className="flex items-baseline justify-between gap-3">
-              <h2 className={`font-display text-2xl font-extrabold ${outcome.success ? "text-good" : "text-ink"}`}>
+              <h2 className={`font-display text-lg font-extrabold lg:text-2xl ${outcome.success ? "text-good" : "text-ink"}`}>
                 {outcome.success ? t("puzzle.solved") : outcome.solved ? t("result.solvedHelp") : t("puzzle.revealed")}
               </h2>
               {outcome.delta !== 0 && (
-                <span className={`font-mono text-lg font-bold tabular ${outcome.delta > 0 ? "text-good" : "text-bad"}`}>
+                <span className={`font-mono text-base font-bold tabular lg:text-lg ${outcome.delta > 0 ? "text-good" : "text-bad"}`}>
                   {outcome.delta > 0 ? `+${outcome.delta}` : outcome.delta}
                 </span>
               )}
@@ -165,13 +169,14 @@ export function TrainingSession({ theme }: { theme: ThemeKey }) {
               <button
                 type="button"
                 onClick={retry}
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-surface-2 px-5 font-semibold transition hover:bg-line"
+                className="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-surface-2 px-4 font-semibold whitespace-nowrap transition hover:bg-line lg:px-5"
+                aria-label={t("puzzle.retry")}
               >
-                <RotateCcw className="size-4" /> {t("puzzle.retry")}
+                <RotateCcw className="size-4" /> <span className="max-sm:hidden">{t("puzzle.retry")}</span>
               </button>
             </div>
             {current?.gameUrl && (
-              <a href={current.gameUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 self-start text-sm font-semibold text-ink-2 hover:text-ink">
+              <a href={current.gameUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 self-start text-sm font-semibold text-ink-2 hover:text-ink max-lg:hidden">
                 {t("puzzle.viewGame")} <ExternalLink className="size-3.5" />
               </a>
             )}

@@ -276,10 +276,6 @@
     "start": "Jogar o desafio de hoje",
     "skip": "Pular"
   },
-  "footer": {
-    "lichess": "Puzzles da base aberta do Lichess.org (CC0).",
-    "made": "Feito para aproximar as pessoas do xadrez."
-  },
   "a11y": {
     "board": "Tabuleiro de xadrez",
     "moved": "{color} jogou {move}",

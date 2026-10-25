@@ -276,10 +276,6 @@
     "start": "Play today's challenge",
     "skip": "Skip"
   },
-  "footer": {
-    "lichess": "Puzzles from the Lichess.org open database (CC0).",
-    "made": "Made to bring people closer to chess."
-  },
   "a11y": {
     "board": "Chess board",
     "moved": "{color} played {move}",

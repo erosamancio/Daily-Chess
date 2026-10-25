@@ -88,9 +88,13 @@ export function ReviewSession() {
           </span>
           <span className="inline-flex h-9 items-center rounded-full bg-surface-2 px-4 text-ink-2">{t(`themes.${current.theme}.name`)}</span>
         </div>
+        {/* No celular o resultado fica preso acima da barra de baixo: "Próximo" sempre à vista, sem rolar. */}
         {outcome && (
-          <section className="dc-rise flex flex-col gap-4 rounded-3xl bg-surface p-5 shadow-card ring-1 ring-line/60" aria-live="polite">
-            <h2 className={`font-display text-2xl font-extrabold ${outcome === "clean" ? "text-good" : "text-ink"}`}>
+          <section
+            className="dc-rise z-20 flex flex-col gap-3 rounded-3xl bg-surface p-4 shadow-card ring-1 ring-line/60 max-lg:fixed max-lg:inset-x-3 max-lg:bottom-[calc(4.75rem+env(safe-area-inset-bottom))] sm:max-lg:mx-auto sm:max-lg:max-w-lg lg:gap-4 lg:p-5"
+            aria-live="polite"
+          >
+            <h2 className={`font-display text-lg font-extrabold lg:text-2xl ${outcome === "clean" ? "text-good" : "text-ink"}`}>
               {outcome === "clean" ? t("review.cleared") : t("review.again")}
             </h2>
             <button

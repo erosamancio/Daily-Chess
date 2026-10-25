@@ -127,3 +127,12 @@ test("rush de 5 minutos", async ({ page }) => {
   await page.getByRole("button", { name: "Começar" }).click();
   await expect(page.locator(".dc-board")).toBeVisible();
 });
+
+test("treino: depois de resolver, Próximo aparece sem rolar a página", async ({ page }) => {
+  await page.goto("/treino/fork");
+  await page.getByRole("button", { name: "Ver solução" }).click({ timeout: 20_000 });
+  const next = page.getByRole("button", { name: /Próximo/ });
+  await expect(next).toBeInViewport({ timeout: 15_000 });
+  await next.click();
+  await expect(page.getByRole("button", { name: "Ver solução" })).toBeEnabled({ timeout: 15_000 });
+});
